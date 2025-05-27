@@ -11,66 +11,69 @@ class AmenitiesSection extends HTMLElement {
 
     render() {
         const amenities = [
-            { name: 'Hồ bơi vô cực', icon: '🌊' },
-            { name: 'Phòng Gym hiện đại', icon: '🏋️' },
-            { name: 'Khu vui chơi trẻ em', icon: '🧸' },
-            { name: 'Công viên cây xanh', icon: '🌳' },
-            { name: 'An ninh 24/7', icon: '🛡️' },
-            { name: 'Trung tâm thương mại', icon: '🛍️' },
-            { name: 'Nhà hàng & Cafe', icon: '☕' },
-            { name: 'Khu BBQ ngoài trời', icon: '🍖' },
-            { name: 'Thư viện cộng đồng', icon: '📚' },
-            { name: 'Đường dạo bộ', icon: '🚶‍♀️' }
+            { name: 'Hồ bơi chuẩn Olympic', icon: '🏊' },
+            { name: 'Gym & Fitness Center', icon: '🏋️‍♂️' },
+            { name: 'Khu vui chơi trẻ em', icon: '🎈' },
+            { name: 'Vườn thiền & Yoga', icon: '🧘‍♀️' },
+            { name: 'An ninh đa lớp 24/7', icon: '📹' },
+            { name: 'Sảnh Lounge sang trọng', icon: '🛋️' },
+            { name: 'Nhà hàng & Cafe sân vườn', icon: '🍽️' },
+            { name: 'Khu BBQ tiệc ngoài trời', icon: '🔥' },
+            { name: 'Thư viện đọc sách', icon: '📖' },
+            { name: 'Đường dạo bộ ven hồ', icon: '👟' },
+            { name: 'Bãi đậu xe thông minh', icon: '🅿️' },
+            { name: 'Dịch vụ quản gia', icon: '🛎️' }
         ];
 
         this.shadowRoot.innerHTML = `
             <style>
                 @import url('https://cdn.tailwindcss.com');
-                :host {
-                    display: block;
-                    background-color: var(--background-color-white, #FFFFFF);
-                    padding: 1.5rem; /* p-6 */
-                    border-radius: var(--border-radius-lg, 8px);
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                /* Sử dụng class section-card từ global.css */
+                .amenities-card {
+                    /* Kế thừa từ .section-card */
                 }
-                h2 {
-                    font-size: 1.75rem; /* text-2xl */
-                    font-weight: 700;
-                    color: var(--secondary-color, #004238);
-                    margin-bottom: 1.5rem; /* mb-6 */
-                    border-bottom: 2px solid var(--primary-color, #53b966);
-                    padding-bottom: 0.5rem;
+                .amenities-card h2 {
+                    /* Kế thừa từ .section-card h2 */
                 }
                 .amenities-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 1.5rem; /* gap-6 */
+                    /* Responsive grid: 2 cột trên mobile, 3 cột trên tablet trở lên */
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 1rem; /* gap-4 */
+                }
+                @media (min-width: 768px) { /* md breakpoint */
+                    .amenities-grid {
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 1.5rem; /* gap-6 */
+                    }
                 }
                 .amenity-item {
                     display: flex;
                     align-items: center;
-                    padding: 1rem; /* p-4 */
+                    padding: 0.75rem; /* p-3 */
                     background-color: var(--background-color-light, #f9fafb);
                     border-radius: var(--border-radius-md, 6px);
                     border: 1px solid #e5e7eb; /* border-gray-200 */
                     transition: transform 0.2s ease, box-shadow 0.2s ease;
                 }
                 .amenity-item:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    transform: translateY(-2px);
+                    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0,0,0,0.1));
                 }
                 .amenity-icon {
-                    font-size: 1.75rem; /* text-3xl */
-                    margin-right: 1rem; /* mr-4 */
+                    font-size: 1.5rem; /* text-2xl */
+                    margin-right: 0.75rem; /* mr-3 */
                     color: var(--primary-color, #53b966);
+                    flex-shrink: 0;
                 }
                 .amenity-name {
                     font-weight: 500; /* font-medium */
                     color: var(--text-color-dark, #1f2937);
+                    font-size: 0.9375rem; /* text-sm gần base */
                 }
             </style>
-            <section>
-                <h2>Tiện Ích Vượt Trội</h2>
+            <section class="section-card amenities-card">
+                <h2>Hệ Thống Tiện Ích Đẳng Cấp</h2>
                 <div class="amenities-grid">
                     ${amenities.map(amenity => `
                         <div class="amenity-item">
