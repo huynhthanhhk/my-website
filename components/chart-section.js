@@ -3,155 +3,147 @@ class ChartSection extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.chartInstance = null; // Để lưu trữ instance của biểu đồ
+        this.chartInstance = null;
     }
 
     connectedCallback() {
         this.render();
-        // Đảm bảo Chart.js đã được tải
-        if (typeof Chart !== 'undefined') {
-            this.renderChart();
-        } else {
-            console.warn('Chart.js chưa được tải. Biểu đồ sẽ không hiển thị.');
-            const canvas = this.shadowRoot.getElementById('priceChart');
-            if(canvas) {
-                const ctx = canvas.getContext('2d');
-                ctx.font = "16px Arial";
-                ctx.fillStyle = "gray";
-                ctx.textAlign = "center";
-                ctx.fillText("Chart.js chưa tải. Không thể hiển thị biểu đồ.", canvas.width / 2, canvas.height / 2);
+        // Đảm bảo Chart.js đã được tải (kiểm tra lại vì có thể render trễ)
+        const checkChartInterval = setInterval(() => {
+            if (typeof Chart !== 'undefined') {
+                clearInterval(checkChartInterval);
+                this.renderChart();
             }
-        }
+        }, 100);
+
+        // Fallback nếu Chart.js không tải được sau 1 thời gian
+        setTimeout(() => {
+            clearInterval(checkChartInterval);
+            if (typeof Chart === 'undefined' && this.shadowRoot && !this.chartInstance) {
+                console.warn('Chart.js chưa được tải. Biểu đồ sẽ không hiển thị.');
+                const canvas = this.shadowRoot.getElementById('priceTrendChart');
+                if(canvas) {
+                    const ctx = canvas.getContext('2d');
+                    ctx.font = "16px var(--font-family-default, Arial)";
+                    ctx.fillStyle = "var(--text-color-medium, gray)";
+                    ctx.textAlign = "center";
+                    ctx.fillText("Không thể tải thư viện biểu đồ.", canvas.width / 2, canvas.height / 2);
+                }
+            }
+        }, 3000);
     }
 
     render() {
         this.shadowRoot.innerHTML = `
             <style>
                 @import url('https://cdn.tailwindcss.com');
-                :host {
-                    display: block;
-                    background-color: var(--background-color-white, #FFFFFF);
-                    padding: 1.5rem; /* p-6 */
-                    border-radius: var(--border-radius-lg, 8px);
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                /* Sử dụng class section-card từ global.css */
+                .chart-card {
+                    /* Kế thừa từ .section-card */
                 }
-                h2 {
-                    font-size: 1.75rem; /* text-2xl */
-                    font-weight: 700;
-                    color: var(--secondary-color, #004238);
-                    margin-bottom: 1.5rem; /* mb-6 */
-                    border-bottom: 2px solid var(--primary-color, #53b966);
-                    padding-bottom: 0.5rem;
+                .chart-card h2 {
+                    /* Kế thừa từ .section-card h2 */
                 }
                 .chart-container {
                     position: relative;
-                    height: 300px; /* Điều chỉnh chiều cao nếu cần */
+                    height: 300px;
                     width: 100%;
                 }
-                 @media (min-width: 768px) {
+                 @media (min-width: 768px) { /* md breakpoint */
                     .chart-container {
-                        height: 400px;
+                        height: 350px; /* Điều chỉnh chiều cao nếu cần */
                     }
                 }
             </style>
-            <section>
-                <h2>Biểu Đồ Biến Động Giá (Ví dụ)</h2>
+            <section class="section-card chart-card">
+                <h2>Xu Hướng Giá Bất Động Sản Khu Vực</h2>
                 <div class="chart-container">
-                    <canvas id="priceChart"></canvas>
+                    <canvas id="priceTrendChart"></canvas>
                 </div>
-                <p class="mt-4 text-sm text-gray-500 italic">Lưu ý: Đây là dữ liệu biểu đồ mẫu.</p>
+                <p class="mt-4 text-xs text-gray-500 italic text-center">Ghi chú: Dữ liệu chỉ mang tính chất minh họa.</p>
             </section>
         `;
     }
 
     renderChart() {
-        const canvas = this.shadowRoot.getElementById('priceChart');
-        if (!canvas) return;
+        const canvas = this.shadowRoot.getElementById('priceTrendChart');
+        if (!canvas || typeof Chart === 'undefined') return; // Kiểm tra lại Chart
         const ctx = canvas.getContext('2d');
 
-        // Dữ liệu mẫu cho biểu đồ
-        const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7'];
+        const labels = ['2020', '2021', '2022', '2023', '2024', '2025 (Dự kiến)'];
         const data = {
             labels: labels,
             datasets: [{
-                label: 'Giá trung bình (triệu VNĐ/m²)',
-                data: [45, 47, 46, 50, 52, 55, 53],
+                label: 'Giá trung bình căn hộ (VNĐ/m²)',
+                data: [35000000, 38000000, 42000000, 45000000, 48000000, 52000000],
                 borderColor: 'var(--primary-color, #53b966)',
-                backgroundColor: 'color-mix(in srgb, var(--primary-color, #53b966) 30%, transparent)',
-                tension: 0.1,
+                backgroundColor: 'color-mix(in srgb, var(--primary-color, #53b966) 20%, transparent)',
+                tension: 0.2,
                 fill: true,
-                borderWidth: 2,
+                borderWidth: 2.5,
                 pointBackgroundColor: 'var(--primary-color, #53b966)',
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointBorderColor: 'var(--background-color-white, #fff)',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
             },
             {
-                label: 'Giá dự kiến (triệu VNĐ/m²)',
-                data: [48, 49, 51, 53, 54, 56, 58],
+                label: 'Giá trung bình đất nền (VNĐ/m²)',
+                data: [55000000, 60000000, 68000000, 72000000, 75000000, 80000000],
                 borderColor: 'var(--secondary-color, #004238)',
                 backgroundColor: 'color-mix(in srgb, var(--secondary-color, #004238) 20%, transparent)',
-                tension: 0.1,
-                fill: false,
-                borderWidth: 2,
-                borderDash: [5, 5], // Đường nét đứt
+                tension: 0.2,
+                fill: true,
+                borderWidth: 2.5,
                 pointBackgroundColor: 'var(--secondary-color, #004238)',
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointBorderColor: 'var(--background-color-white, #fff)',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
             }]
         };
 
-        // Hủy biểu đồ cũ nếu có để tránh lỗi khi render lại
         if (this.chartInstance) {
             this.chartInstance.destroy();
         }
 
         this.chartInstance = new Chart(ctx, {
-            type: 'line', // Loại biểu đồ: line, bar, pie, etc.
+            type: 'line',
             data: data,
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: false, // Có thể không bắt đầu từ 0 để rõ biến động nhỏ
-                        title: {
-                            display: true,
-                            text: 'Giá (triệu VNĐ/m²)'
+                        beginAtZero: false,
+                        title: { display: true, text: 'Giá (VNĐ/m²)' },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return (value / 1000000) + ' Tr';
+                            }
                         }
                     },
-                    x: {
-                         title: {
-                            display: true,
-                            text: 'Thời gian'
-                        }
-                    }
+                    x: { title: { display: true, text: 'Năm' } }
                 },
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
                     tooltip: {
                         mode: 'index',
                         intersect: false,
                         callbacks: {
                             label: function(context) {
                                 let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
+                                if (label) { label += ': '; }
                                 if (context.parsed.y !== null) {
-                                    label += context.parsed.y + ' tr VNĐ/m²';
+                                    label += (context.parsed.y / 1000000).toFixed(1) + ' Triệu VNĐ/m²';
                                 }
                                 return label;
                             }
                         }
                     }
                 },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
-                }
+                interaction: { mode: 'nearest', axis: 'x', intersect: false },
+                elements: { line: { borderWidth: 2.5 } }
             }
         });
     }
