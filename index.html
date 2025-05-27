@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Bất Động Sản</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/global.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="components/hero-section.js"></script>
+    <script type="module" src="components/main-layout-section.js"></script>
+    <script type="module" src="components/project-info-section.js"></script>
+    <script type="module" src="components/map-location-section.js"></script>
+    <script type="module" src="components/loan-calculator-section.js"></script>
+    <script type="module" src="components/amenities-section.js"></script>
+    <script type="module" src="components/chart-section.js"></script>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+
+    <div id="app-container">
+
+        <hero-section
+            title-text="Khám Phá Ngôi Nhà Mơ Ước Của Bạn"
+            subtitle-text="Tìm kiếm từ hàng ngàn bất động sản chất lượng cao với giá tốt nhất."
+            button-text="Tìm Hiểu Ngay"
+            background-image-url="https://placehold.co/1920x800/53b966/FFFFFF?text=Ảnh+Hero+Section"
+        ></hero-section>
+
+        <div class="main-content-wrapper mx-auto" style="max-width: var(--container-max-width);">
+
+            <main-layout-section class="py-8 md:py-12">
+                <div slot="left-column-content">
+                    <project-info-section class="mb-8"></project-info-section>
+
+                    <map-location-section class="mb-8"></map-location-section>
+
+                    <amenities-section class="mb-8"></amenities-section>
+                </div>
+
+                <div slot="right-column-content">
+                    <loan-calculator-section class="mb-8 sticky top-8"></loan-calculator-section>
+                </div>
+            </main-layout-section>
+
+            <chart-section class="py-8 md:py-12"></chart-section>
+
+        </div>
+
+        <footer class="bg-secondary text-text-light text-center p-8 mt-12">
+            <p>&copy; 2025 Công Ty Bất Động Sản ABC. Bảo lưu mọi quyền.</p>
+            <p>Liên hệ: contact@example.com</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
