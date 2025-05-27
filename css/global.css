@@ -102,3 +102,11 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary-color);
 }
+/* === PHẦN THÊM MỚI CHO BROKER CONTACT STICKY === */
+/* Kiểu dáng cho widget liên hệ môi giới khi "dính" lại */
+#brokerContactWidget.broker-should-stick {
+    position: fixed;
+    top: 32px; /* Tương đương top-8 của Tailwind */
+    /* width sẽ được JavaScript đặt động để khớp với chiều rộng cột của nó */
+    z-index: 40; /* Đảm bảo nó ở trên các nội dung khác trong layout chính */
+}
