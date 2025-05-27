@@ -9,16 +9,20 @@
   --text-color-dark: #1f2937; /* text-gray-800 */
   --text-color-medium: #4b5563; /* text-gray-600 */
 
-  --background-color-light: #f9fafb; /* bg-gray-50 */
+  --background-color-light: #f3f4f6; /* bg-gray-100 (thay đổi từ gray-50) */
   --background-color-white: #FFFFFF;
 
-  --container-max-width: 1100px;
-  --font-family-default: 'Inter', sans-serif; /* Sử dụng font Inter */
+  --container-max-width: 1100px; /* Đã có */
+  --font-family-default: 'Inter', sans-serif;
   
   --spacing-unit: 8px;
   --border-radius-sm: 4px;
   --border-radius-md: 6px;
   --border-radius-lg: 8px;
+  --border-radius-xl: 12px; /* Thêm cho card/section */
+
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -29,26 +33,37 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600; /* semibold */
-  color: var(--secondary-color); /* Tiêu đề mặc định màu xanh đậm */
+  font-weight: 700; /* bold (tăng độ đậm cho tiêu đề) */
+  color: var(--secondary-color);
+  line-height: 1.3;
 }
 
-/* Tùy chỉnh thanh cuộn (ví dụ) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Section card styling (áp dụng cho các component con) */
+.section-card {
+    background-color: var(--background-color-white);
+    padding: calc(var(--spacing-unit) * 3); /* p-6 */
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-md);
 }
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+@media (min-width: 768px) { /* md breakpoint */
+    .section-card {
+        padding: calc(var(--spacing-unit) * 4); /* p-8 */
+    }
 }
-::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 10px;
+
+.section-card h2 { /* Tiêu đề bên trong card */
+    font-size: 1.5rem; /* text-2xl */
+    margin-bottom: calc(var(--spacing-unit) * 2); /* mb-4 */
+    padding-bottom: calc(var(--spacing-unit) * 1); /* pb-2 */
+    border-bottom: 2px solid var(--primary-color);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
+.section-card h3 {
+    font-size: 1.25rem; /* text-xl */
+    color: var(--secondary-color);
+    margin-top: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
 }
+
 
 /* Helper class để sử dụng màu chính */
 .text-primary {
@@ -71,16 +86,19 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--secondary-color);
 }
 
-/* Các section không full-width sẽ có padding chung */
-.section-padding {
-  padding-top: calc(var(--spacing-unit) * 6);
-  padding-bottom: calc(var(--spacing-unit) * 6);
+/* Tùy chỉnh thanh cuộn (ví dụ) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-
-@media (min-width: 768px) { /* md breakpoint */
-  .section-padding {
-    padding-top: calc(var(--spacing-unit) * 8);
-    padding-bottom: calc(var(--spacing-unit) * 8);
-  }
+::-webkit-scrollbar-track {
+  background: #e5e7eb; /* bg-gray-200 */
+  border-radius: 10px;
 }
-
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
