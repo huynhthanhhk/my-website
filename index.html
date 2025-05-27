@@ -3,52 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Web Bất Động Sản</title>
+    <title>Trang Web Bất Động Sản V2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/global.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="components/hero-section.js"></script>
     <script type="module" src="components/main-layout-section.js"></script>
-    <script type="module" src="components/project-info-section.js"></script>
+    <script type="module" src="components/main-content-section.js"></script> <script type="module" src="components/project-info-section.js"></script>
     <script type="module" src="components/map-location-section.js"></script>
     <script type="module" src="components/loan-calculator-section.js"></script>
     <script type="module" src="components/amenities-section.js"></script>
     <script type="module" src="components/chart-section.js"></script>
-</head>
-<body class="font-sans bg-gray-50 text-gray-800">
+    <script type="module" src="components/broker-contact-section.js"></script> </head>
+<body class="font-sans bg-gray-100 text-gray-800">
 
     <div id="app-container">
 
         <hero-section
-            title-text="Khám Phá Ngôi Nhà Mơ Ước Của Bạn"
-            subtitle-text="Tìm kiếm từ hàng ngàn bất động sản chất lượng cao với giá tốt nhất."
-            button-text="Tìm Hiểu Ngay"
-            background-image-url="https://placehold.co/1920x800/53b966/FFFFFF?text=Ảnh+Hero+Section"
+            title-text="Ngôi Nhà Hoàn Hảo, Cuộc Sống Trọn Vẹn"
+            subtitle-text="Kiến tạo không gian sống đẳng cấp, nơi mọi khoảnh khắc đều đáng giá."
+            button-text="Khám Phá Dự Án"
+            background-image-url="https://placehold.co/1100x500/004238/FFFFFF?text=Hero+1100x500"
         ></hero-section>
 
-        <div class="main-content-wrapper mx-auto" style="max-width: var(--container-max-width);">
+        <main-layout-section class="py-8 md:py-12">
+            <div slot="left-column-content">
+                <main-content-section class="mb-8"></main-content-section>
+                <project-info-section class="mb-8"></project-info-section>
+                <map-location-section class="mb-8"></map-location-section>
+                <loan-calculator-section class="mb-8"></loan-calculator-section>
+                <amenities-section class="mb-8"></amenities-section>
+                <chart-section class="mb-8"></chart-section>
+            </div>
 
-            <main-layout-section class="py-8 md:py-12">
-                <div slot="left-column-content">
-                    <project-info-section class="mb-8"></project-info-section>
-
-                    <map-location-section class="mb-8"></map-location-section>
-
-                    <amenities-section class="mb-8"></amenities-section>
-                </div>
-
-                <div slot="right-column-content">
-                    <loan-calculator-section class="mb-8 sticky top-8"></loan-calculator-section>
-                </div>
-            </main-layout-section>
-
-            <chart-section class="py-8 md:py-12"></chart-section>
-
-        </div>
+            <div slot="right-column-content">
+                <broker-contact-section class="sticky top-8"></broker-contact-section>
+            </div>
+        </main-layout-section>
 
         <footer class="bg-secondary text-text-light text-center p-8 mt-12">
-            <p>&copy; 2025 Công Ty Bất Động Sản ABC. Bảo lưu mọi quyền.</p>
-            <p>Liên hệ: contact@example.com</p>
+            <p>&copy; 2025 Công Ty Bất Động Sản V2. Bảo lưu mọi quyền.</p>
+            <p>Liên hệ: info@batdongsanv2.com</p>
         </footer>
 
     </div>
