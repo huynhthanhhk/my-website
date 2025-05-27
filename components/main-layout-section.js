@@ -15,20 +15,25 @@ class MainLayoutSection extends HTMLElement {
                 @import url('https://cdn.tailwindcss.com');
                 :host {
                     display: block; /* Quan trọng cho layout */
-                    /* max-width: var(--container-max-width, 1100px); */ /* Max-width được xử lý bên ngoài component này */
-                    /* margin-left: auto; */
-                    /* margin-right: auto; */
-                    padding-left: 1rem; /* px-4 */
-                    padding-right: 1rem; /* px-4 */
+                    max-width: var(--container-max-width, 1100px);
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-left: 1rem; /* px-4 chung cho khối 2 */
+                    padding-right: 1rem; /* px-4 chung cho khối 2 */
                 }
                 .main-layout-grid {
                     display: grid;
-                    gap: 2rem; /* gap-8 */
+                    gap: 2rem; /* gap-8, khoảng cách giữa 2 cột */
                 }
                 @media (min-width: 768px) { /* md breakpoint */
                     .main-layout-grid {
-                        grid-template-columns: 7fr 3fr; /* Tương đương 70% và 30% với gap */
+                        /* Cột 1 chiếm 7 phần, cột 2 chiếm 3 phần */
+                        grid-template-columns: 7fr 3fr;
                     }
+                }
+                /* Đảm bảo slot content được hiển thị */
+                ::slotted(*) { 
+                    /* Các phần tử được slot vào sẽ tự động kế thừa/hiển thị */
                 }
             </style>
             <div class="main-layout-grid">
