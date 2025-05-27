@@ -5,6 +5,16 @@ class MapLocationSection extends HTMLElement {
         this.attachShadow({ mode: 'open' });
     }
 
+    static get observedAttributes() {
+        return ['map-embed-url'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'map-embed-url' && oldValue !== newValue) {
+            this.render();
+        }
+    }
+
     connectedCallback() {
         this.render();
     }
@@ -15,46 +25,53 @@ class MapLocationSection extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 @import url('https://cdn.tailwindcss.com');
-                :host {
-                    display: block;
-                    background-color: var(--background-color-white, #FFFFFF);
-                    padding: 1.5rem; /* p-6 */
-                    border-radius: var(--border-radius-lg, 8px);
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                /* Sử dụng class section-card từ global.css */
+                .map-card {
+                    /* Kế thừa từ .section-card */
                 }
-                h2 {
-                    font-size: 1.75rem; /* text-2xl */
-                    font-weight: 700;
-                    color: var(--secondary-color, #004238);
-                    margin-bottom: 1rem;
-                    border-bottom: 2px solid var(--primary-color, #53b966);
-                    padding-bottom: 0.5rem;
+                 .map-card h2 {
+                    /* Kế thừa từ .section-card h2 */
+                }
+                .map-container {
+                    width: 100%;
+                    height: 350px; /* Chiều cao cố định cho bản đồ */
+                    border-radius: var(--border-radius-md, 6px);
+                    overflow: hidden; /* Đảm bảo iframe nằm gọn */
                 }
                 .map-placeholder {
-                    width: 100%;
-                    height: 400px;
                     background-color: #e9ecef; /* bg-gray-200 */
                     display: flex;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    border-radius: var(--border-radius-md, 6px);
                     color: var(--text-color-medium, #4b5563);
                     font-style: italic;
+                    height: 100%;
+                    text-align: center;
+                    padding: 1rem;
                 }
-                iframe {
-                    border-radius: var(--border-radius-md, 6px);
+                .map-container iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: 0;
                 }
             </style>
-            <section>
-                <h2>Vị Trí Dự Án Trên Bản Đồ</h2>
+            <section class="section-card map-card">
+                <h2>Vị Trí Vàng Kết Nối Ngàn Tiện Ích</h2>
+                <div class="map-container">
                 ${mapEmbedUrl ? `
-                    <iframe src="${mapEmbedUrl}" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="${mapEmbedUrl}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 ` : `
                     <div class="map-placeholder">
-                        <p>Bản đồ sẽ được hiển thị ở đây. <br/> (Ví dụ: Nhúng iframe từ Google Maps)</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <p>Bản đồ vị trí dự án sẽ được hiển thị tại đây.</p>
+                        <p class="text-xs mt-1">(Cấu hình thuộc tính 'map-embed-url' để nhúng bản đồ)</p>
                     </div>
                 `}
-                 <p class="mt-4 text-sm text-gray-600">Để hiển thị bản đồ thực tế, bạn có thể cung cấp URL nhúng qua thuộc tính 'map-embed-url' cho component này. Ví dụ: &lt;map-location-section map-embed-url="YOUR_GOOGLE_MAPS_EMBED_URL"&gt;&lt;/map-location-section&gt;</p>
+                </div>
             </section>
         `;
     }
