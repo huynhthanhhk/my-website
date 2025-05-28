@@ -107,13 +107,6 @@ headerTemplate.innerHTML = `
     </header>
 `;
 
-class SiteHeader extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(headerTemplate.content.cloneNode(true));
-    }
-}
 customElements.define('site-header', SiteHeader);
 // js/components/SiteHeader.js
 // ... (phần template và class definition giữ nguyên)
