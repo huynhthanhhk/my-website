@@ -3,120 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Web Bất Động Sản V2</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/global.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="components/hero-section.js"></script>
-    <script type="module" src="components/main-layout-section.js"></script>
-    <script type="module" src="components/main-content-section.js"></script>
-    <script type="module" src="components/project-info-section.js"></script>
-    <script type="module" src="components/map-location-section.js"></script>
-    <script type="module" src="components/loan-calculator-section.js"></script>
-    <script type="module" src="components/amenities-section.js"></script>
-    <script type="module" src="components/chart-section.js"></script>
-    <script type="module" src="components/broker-contact-section.js"></script>
-</head>
-<body class="font-sans bg-gray-100 text-gray-800">
+    <title>Trang Web Bất Động Sản</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/breadcrumb.css">
+    <link rel="stylesheet" href="css/components/area-suggestions.css">
+    <link rel="stylesheet" href="css/components/filter-sidebar.css">
+    <link rel="stylesheet" href="css/components/product-list.css">
+    <link rel="stylesheet" href="css/components/product-item.css">
+    <link rel="stylesheet" href="css/components/pagination.css">
+    <link rel="stylesheet" href="css/components/property-tabs.css">
+    <link rel="stylesheet" href="css/components/price-stats.css">
+    <link rel="stylesheet" href="css/components/faq.css">
+    <link rel="stylesheet" href="css/components/popup.css">
+    <link rel="stylesheet" href="css/components/section-layouts.css"> </head>
+<body>
+    <div class="site-container">
+        <site-header></site-header>
 
-    <div id="app-container">
+        <main>
+            <section id="section-1" class="main-section">
+                <breadcrumb-nav></breadcrumb-nav>
+                <h1>Bán căn hộ TP. Hồ Chí Minh</h1>
+                <area-suggestions data-city="TP. Hồ Chí Minh"></area-suggestions>
+            </section>
 
-        <hero-section
-            id="pageHeroSection" title-text="Ngôi Nhà Hoàn Hảo, Cuộc Sống Trọn Vẹn"
-            subtitle-text="Kiến tạo không gian sống đẳng cấp, nơi mọi khoảnh khắc đều đáng giá."
-            button-text="Khám Phá Dự Án"
-            background-image-url="https://placehold.co/1100x500/004238/FFFFFF?text=Hero+1100x500"
-        ></hero-section>
+            <section id="section-2" class="main-section section-2-layout">
+                <filter-sidebar class="section-2-left"></filter-sidebar>
+                <div class="section-2-right">
+                    <div class="search-bar-container">
+                        <input type="search" placeholder="Tìm kiếm theo tiêu đề, địa chỉ..." class="main-search-input">
+                        <button class="search-button">Tìm</button>
+                    </div>
+                    <div class="search-results-info">
+                        <p><span id="search-results-count">12.345</span> kết quả bất động sản</p>
+                        <div class="sort-options">
+                            <label for="sort-by">Sắp xếp theo:</label>
+                            <select id="sort-by" name="sort-by">
+                                <option value="default">Mặc định</option>
+                                <option value="price-asc">Giá tăng dần</option>
+                                <option value="price-desc">Giá giảm dần</option>
+                                <option value="date-newest">Mới nhất</option>
+                            </select>
+                        </div>
+                    </div>
+                    <product-list></product-list>
+                    <custom-pagination data-total-pages="10" data-current-page="1"></custom-pagination>
+                </div>
+            </section>
 
-        <main-layout-section class="py-8 md:py-12">
-            <div slot="left-column-content">
-                <main-content-section class="mb-8"></main-content-section>
-                <project-info-section class="mb-8"></project-info-section>
-                <map-location-section class="mb-8"></map-location-section>
-                <loan-calculator-section class="mb-8"></loan-calculator-section>
-                <amenities-section class="mb-8"></amenities-section>
-                <chart-section class="mb-8"></chart-section>
-            </div>
+            <section id="section-3" class="main-section section-3-layout">
+                <div class="section-3-left">
+                    <h3>Khám phá thêm các loại hình khác tại TP. Hồ Chí Minh</h3>
+                    <property-type-tabs></property-type-tabs>
+                </div>
+                <div class="section-3-right">
+                    <h3>Danh sách chung cư TP. Hồ Chí Minh</h3>
+                    <div class="featured-list-box">
+                        <img src="assets/images/placeholder-4-3.png" alt="Chung cư nổi bật" class="featured-list-thumbnail">
+                        <h4>Chung cư ABC Quận X</h4>
+                        <p>Mô tả ngắn về chung cư ABC, vị trí đắc địa, tiện ích đầy đủ, không gian sống lý tưởng...</p>
+                    </div>
+                    <div class="featured-list-box">
+                        <img src="assets/images/placeholder-4-3.png" alt="Chung cư nổi bật" class="featured-list-thumbnail">
+                        <h4>Chung cư XYZ Quận Y</h4>
+                        <p>Mô tả ngắn về chung cư XYZ, thiết kế hiện đại, gần trung tâm, nhiều ưu đãi hấp dẫn...</p>
+                    </div>
+                </div>
+            </section>
 
-            <div slot="right-column-content" id="rightColumnSlot"> <broker-contact-section id="brokerContactWidget"></broker-contact-section>
-            </div>
-        </main-layout-section>
+            <section id="section-4" class="main-section">
+                <price-statistics data-area="TP. Hồ Chí Minh"></price-statistics>
+            </section>
 
-        <footer class="bg-secondary text-text-light text-center p-8 mt-12">
-            <p>&copy; 2025 Công Ty Bất Động Sản V2. Bảo lưu mọi quyền.</p>
-            <p>Liên hệ: info@batdongsanv2.com</p>
-        </footer>
+            <section id="section-5" class="main-section section-5-layout">
+                <div class="section-5-left">
+                    <faq-section></faq-section>
+                </div>
+                <div class="section-5-right">
+                    <h3>Nội dung SEO cho khu vực</h3>
+                    <p>Thông tin về thị trường bất động sản TP. Hồ Chí Minh: tiềm năng phát triển, các dự án nổi bật, lời khuyên đầu tư. Chúng tôi cung cấp danh sách căn hộ đa dạng, từ chung cư cao cấp đến nhà ở giá rẻ, phù hợp với mọi nhu cầu của bạn. Khám phá ngay các căn hộ tại Quận 1, Quận 7, Tân Phú, Bình Thạnh với giá tốt nhất.</p>
+                    <p>Từ khóa: bán căn hộ TP. Hồ Chí Minh, chung cư giá rẻ, căn hộ cao cấp, mua nhà Sài Gòn, bất động sản TP.HCM.</p>
+                </div>
+            </section>
+        </main>
 
+        <site-footer></site-footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroSection = document.getElementById('pageHeroSection');
-            const brokerContactWidget = document.getElementById('brokerContactWidget');
-            const rightColumnSlot = document.getElementById('rightColumnSlot'); // The parent div in the slot
+    <modal-popup id="product-detail-popup">
+        <h2>Chi Tiết Sản Phẩm</h2>
+        <div id="product-detail-content">
+            <p>Thông tin chi tiết về sản phẩm sẽ hiển thị ở đây...</p>
+            <img src="assets/images/placeholder-4-3.png" alt="Ảnh sản phẩm" style="max-width: 100%; height: auto;">
+            <p>Giá: <span class="highlight-price">Đang cập nhật</span></p>
+            <p>Địa chỉ: Đang cập nhật</p>
+            <p>Mô tả: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vel consectetur interdum, nisl nunc egestas nunc, vitae tincidunt nisl nunc euismod nunc.</p>
+        </div>
+    </modal-popup>
 
-            if (!heroSection || !brokerContactWidget || !rightColumnSlot) {
-                console.warn('Sticky broker: Required elements not found. Stickiness might not work.');
-                return;
-            }
+    <modal-popup id="area-list-popup">
+        <h2>Chọn Khu Vực</h2>
+        <div id="area-list-content">
+            </div>
+    </modal-popup>
 
-            let placeholder = null; // Placeholder element
-            const stickyOffsetTop = 32; // 32px, equivalent to Tailwind's top-8
-
-            function updateBrokerContactStickiness() {
-                const heroRect = heroSection.getBoundingClientRect(); // Position relative to viewport
-                
-                // Condition to stick: Bottom of hero is above the viewport's top edge (hero is scrolled out)
-                if (heroRect.bottom < 0) {
-                    if (!brokerContactWidget.classList.contains('broker-should-stick')) {
-                        // Create or update placeholder BEFORE making broker sticky
-                        if (!placeholder) {
-                            placeholder = document.createElement('div');
-                            placeholder.style.visibility = 'hidden'; // Keep it in flow but not visible initially
-                            // Insert placeholder before the widget
-                            brokerContactWidget.parentElement.insertBefore(placeholder, brokerContactWidget);
-                        }
-                        // Set placeholder height to current widget height to prevent layout jump
-                        placeholder.style.height = brokerContactWidget.offsetHeight + 'px';
-                        placeholder.style.width = '100%'; // Placeholder takes full width of its column
-                        placeholder.style.display = 'block'; // Make placeholder occupy space
-
-                        brokerContactWidget.classList.add('broker-should-stick');
-                        // Set width explicitly because fixed position takes element out of flow
-                        brokerContactWidget.style.width = rightColumnSlot.offsetWidth + 'px';
-                    }
-                } else { // Condition to unstick: Hero is at least partially in view
-                    if (brokerContactWidget.classList.contains('broker-should-stick')) {
-                        brokerContactWidget.classList.remove('broker-should-stick');
-                        brokerContactWidget.style.width = ''; // Reset width, will take from its own styles or parent
-                        if (placeholder) {
-                            placeholder.style.display = 'none'; // Hide placeholder, it no longer needs to occupy space
-                        }
-                    }
-                }
-            }
-
-            function handleResize() {
-                // If the widget is sticky, its width needs to be updated on resize
-                if (brokerContactWidget.classList.contains('broker-should-stick')) {
-                    brokerContactWidget.style.width = rightColumnSlot.offsetWidth + 'px';
-                }
-                // If placeholder is active, update its height in case widget content changed affecting its natural height
-                // This is more complex; for now, placeholder height is set at the moment of sticking.
-                // A robust solution might re-evaluate placeholder height on resize if not sticky.
-            }
-
-            window.addEventListener('scroll', updateBrokerContactStickiness, { passive: true });
-            window.addEventListener('resize', handleResize, { passive: true });
-
-            // Initial check in case the page loads already scrolled or hero is very short
-            // Ensure layout is stable before initial calculation
-            setTimeout(() => {
-                 handleResize(); // Calculate initial width for fixed state if needed
-                 updateBrokerContactStickiness(); // Initial check for stickiness
-            }, 100); // Small delay for initial render
-        });
-    </script>
-
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
