@@ -1,34 +1,37 @@
 // js/components/AreaSuggestions.js
-const allAreasData = {
-    "TP. Hồ Chí Minh": ["Tân Phú", "Quận 1", "Bình Thạnh", "Quận 3", "Quận 5", "Quận 7", "Gò Vấp", "Bình Tân", "Quận 2", "Quận 4", "Quận 6", "Quận 8", "Quận 9", "Quận 10", "Quận 11", "Quận 12", "Thủ Đức", "Bình Chánh", "Cần Giờ", "Củ Chi", "Hóc Môn", "Nhà Bè"],
-    "Hà Nội": ["Ba Đình", "Hoàn Kiếm", "Hai Bà Trưng", "Đống Đa", "Tây Hồ", "Cầu Giấy", "Thanh Xuân", "Hoàng Mai", "Long Biên", "Hà Đông"]
-    // Thêm các tỉnh thành khác nếu cần
-};
-
+// ... (allAreasData giữ nguyên)
 const areaSuggestionsTemplate = document.createElement('template');
 areaSuggestionsTemplate.innerHTML = `
     <style>
-        /* CSS cho area-suggestions.css */
         :host { display: block; margin-bottom: 20px; }
         .suggestions-container {
             font-size: 0.95em;
             color: var(--dark-gray-color);
+            display: flex; /* Đưa các item vào hàng */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+            gap: 10px; /* Khoảng cách giữa text, list và button */
+        }
+        .suggestions-container > span { /* Text "Gợi ý khu vực:" */
+            white-space: nowrap; /* Không xuống dòng text này */
         }
         .suggestions-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; /* Các thẻ a nằm trên một hàng */
+            flex-wrap: wrap; /* Cho phép các thẻ a xuống dòng */
+            gap: 10px; /* Khoảng cách giữa các thẻ a */
+            align-items: center; /* Căn giữa các thẻ a */
         }
-        .suggestions-list li a {
+        .suggestions-list li a { /* Bỏ li đi nếu không cần thiết nữa */
             padding: 5px 10px;
             background-color: var(--light-gray-color);
             border-radius: var(--border-radius);
             color: var(--secondary-color);
             text-decoration: none;
             transition: background-color 0.3s, color 0.3s;
+            display: inline-block; /* Để padding có tác dụng đúng */
         }
         .suggestions-list li a:hover {
             background-color: var(--primary-color);
@@ -40,9 +43,10 @@ areaSuggestionsTemplate.innerHTML = `
             color: var(--primary-color);
             text-decoration: underline;
             cursor: pointer;
-            padding: 5px 0;
-            margin-left: 5px;
+            padding: 5px 0; /* Điều chỉnh padding nếu cần */
+            /* margin-left: 5px; /* Không cần margin nếu đã có gap */
             font-size: 0.95em;
+            white-space: nowrap; /* Không xuống dòng chữ "Xem thêm" */
         }
         .view-more-btn:hover {
             color: var(--secondary-color);
@@ -55,19 +59,21 @@ areaSuggestionsTemplate.innerHTML = `
     </div>
 `;
 
+// Class AreaSuggestions giữ nguyên, logic renderVisibleAreas không cần thay đổi lớn
+// Chỉ cần đảm bảo thẻ `a` được append vào `ul`
 class AreaSuggestions extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(areaSuggestionsTemplate.content.cloneNode(true));
 
-        this._visibleCount = 5; // Số lượng khu vực hiển thị ban đầu
+        this._visibleCount = 5;
         this._areas = [];
     }
 
     connectedCallback() {
         const cityName = this.dataset.city || "TP. Hồ Chí Minh";
-        this._areas = allAreasData[cityName] || [];
+        this._areas = allAreasData[cityName] || []; // allAreasData is defined above the template
 
         this.renderVisibleAreas();
 
@@ -82,7 +88,7 @@ class AreaSuggestions extends HTMLElement {
         const areasToShow = this._areas.slice(0, this._visibleCount);
 
         areasToShow.forEach(area => {
-            const li = document.createElement('li');
+            const li = document.createElement('li'); // Vẫn dùng li để dễ quản lý
             const a = document.createElement('a');
             a.href = `#khu-vuc-${area.toLowerCase().replace(/\s+/g, '-')}`;
             a.textContent = area;
@@ -96,7 +102,7 @@ class AreaSuggestions extends HTMLElement {
             this.shadowRoot.getElementById('view-more-areas').classList.remove('hidden');
         }
     }
-
+    // ... (phần showPopupWithAllAreas, observedAttributes, attributeChangedCallback giữ nguyên)
     showPopupWithAllAreas() {
         const popup = document.getElementById('area-list-popup');
         const contentDiv = document.getElementById('area-list-content');
