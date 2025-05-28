@@ -24,76 +24,83 @@ filterBlockTemplate.innerHTML = `
         }
         .filter-block-title {
             margin: 0;
-            font-size: 1em; /* Chuẩn hóa kích thước title */
+            font-size: 1em;
         }
         .toggle-icon {
             transition: transform 0.3s ease;
             font-size: 1.2em;
-            line-height: 1; /* Đảm bảo icon không làm thay đổi chiều cao header */
+            line-height: 1;
         }
         .filter-block-content {
-            padding: 0px 15px; /* Bỏ padding top/bottom ban đầu khi đóng */
+            padding: 0px 15px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out, padding 0.3s ease-out;
         }
         :host([open]) .filter-block-content {
-            max-height: 1000px; /* Một giá trị đủ lớn để chứa nội dung */
-            padding: 15px; /* Khôi phục padding khi mở */
+            max-height: 1000px; /* Đủ lớn để chứa nội dung */
+            padding: 15px;
             border-top: 1px solid var(--medium-gray-color);
         }
         :host([open]) .toggle-icon {
-            transform: rotate(180deg); /* Icon mũi tên lật ngược khi mở */
+            transform: rotate(180deg);
         }
 
-        /* CSS cho các options bên trong slot */
-        ::slotted(ul) {
-            list-style: none !important; /* Quan trọng: loại bỏ dấu chấm đầu dòng */
-            padding: 0 !important;
-            margin: 0 !important;
+        /* === CSS Sửa lỗi marker cho radio === */
+        ::slotted(ul), ::slotted(ul li) {
+            list-style: none !important; /* Loại bỏ marker cho ul và li */
+            padding-left: 0 !important;  /* Bỏ padding mặc định của ul/li có thể gây ra khoảng trống giống marker */
+            margin-left: 0 !important;
         }
+        /* Đảm bảo các ::slotted(li) không có list-style riêng */
         ::slotted(li) {
-            margin-bottom: 10px !important; /* Tăng khoảng cách một chút */
+            list-style-type: none !important; 
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            margin-bottom: 10px !important;
         }
         ::slotted(li:last-child) {
             margin-bottom: 0 !important;
         }
+        /* === Kết thúc CSS sửa lỗi marker === */
+
         ::slotted(label) {
             display: flex;
             align-items: center;
             cursor: pointer;
-            font-size: 0.95em; /* Điều chỉnh kích thước chữ của label */
+            font-size: 0.95em;
             color: var(--text-color);
         }
         ::slotted(input[type="radio"]),
         ::slotted(input[type="checkbox"]) {
             margin-right: 8px;
-            margin-top: 0; /* Căn chỉnh với text */
-            flex-shrink: 0; /* Ngăn co lại */
+            margin-top: 0; 
+            flex-shrink: 0;
         }
         
-        /* Style cho range-slider khi bị ẩn/hiện bởi radio "Tuỳ chọn" */
         ::slotted(range-slider) {
-            max-height: 200px; /* Chiều cao tối đa khi hiện */
+            max-height: 200px;
             overflow: hidden;
             transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out, visibility 0.3s;
             opacity: 1;
-            margin-top: 10px; /* Khoảng cách với radio "Tuỳ chọn" */
+            margin-top: 10px;
             visibility: visible;
+            display: block; /* Đảm bảo range-slider là block để margin-top hoạt động */
         }
         ::slotted(range-slider.hidden-by-radio) {
             max-height: 0;
             opacity: 0;
             margin-top: 0;
             visibility: hidden;
-            /* Quan trọng: display: none sẽ không có transition */
+            /* transition-delay: 0s, 0s, 0s, 0.3s;  Nếu muốn delay việc ẩn visibility */
         }
     </style>
     <div class="filter-block-header" id="header" role="button" aria-expanded="false">
         <h4 class="filter-block-title">
             <slot name="title">Tiêu đề khối lọc</slot>
         </h4>
-        <span class="toggle-icon" aria-hidden="true">&#9660;</span> </div>
+        <span class="toggle-icon" aria-hidden="true">&#9660;</span>
+    </div>
     <div class="filter-block-content" id="content">
         <slot name="content" id="contentSlot"></slot>
     </div>
@@ -113,50 +120,88 @@ class FilterBlock extends HTMLElement {
             this.toggle();
         });
 
-        // Mặc định mở nếu có attribute 'open', đồng bộ aria-expanded
         if (this.hasAttribute('open')) {
             this._open();
         } else {
-            this._close(); // Đảm bảo aria-expanded được set đúng ban đầu
+            this._close();
         }
 
-        // Lắng nghe sự kiện slotchange để biết khi nào nội dung slot được thêm vào
         this._contentSlot.addEventListener('slotchange', () => {
+            // console.log('Slot content changed, re-evaluating radio listeners for range sliders.');
             this._setupRadioListenersForRangeSlider();
         });
-        // Gọi một lần ban đầu phòng trường hợp nội dung đã có sẵn (ví dụ khi cloneNode)
-        this._setupRadioListenersForRangeSlider();
+        this._setupRadioListenersForRangeSlider(); // Gọi lần đầu
     }
 
+    /**
+     * Thiết lập listeners cho các radio button để ẩn/hiện range-slider.
+     * Logic này tìm các radio "Tuỳ chọn" và range-slider liên quan dựa trên cấu trúc HTML
+     * được mô tả trong "LƯU Ý QUAN TRỌNG".
+     */
     _setupRadioListenersForRangeSlider() {
-        // assignedElements() tốt hơn assignedNodes() vì nó chỉ trả về element nodes.
-        const slottedElements = this._contentSlot.assignedElements({ flatten: true });
-        
-        slottedElements.forEach(slottedElementContainer => {
-            // Thường thì slot="content" sẽ chứa một div hoặc ul làm container trực tiếp
-            const customRadio = slottedElementContainer.querySelector('input[type="radio"][value="custom"], input[type="radio"][id*="_custom_radio"]');
-            const rangeSlider = slottedElementContainer.querySelector('range-slider');
-            const otherRadiosInGroup = customRadio ? 
-                Array.from(slottedElementContainer.querySelectorAll(`input[type="radio"][name="${customRadio.name}"]`))
-                : [];
+        // Lấy tất cả các phần tử <li> được slot vào (giả định cấu trúc ul > li)
+        // Hoặc lấy các container trực tiếp nếu cấu trúc khác
+        const directSlottedContainers = this._contentSlot.assignedElements({ flatten: true });
 
-            if (customRadio && rangeSlider) {
-                const handleRadioChange = () => {
-                    if (customRadio.checked) {
-                        rangeSlider.classList.remove('hidden-by-radio');
-                    } else {
-                        rangeSlider.classList.add('hidden-by-radio');
+        directSlottedContainers.forEach(container => {
+            // Tìm tất cả các input radio "custom" bên trong container này
+            const customRadios = container.querySelectorAll('input[type="radio"][value="custom"], input[type="radio"][id*="_custom_radio"]');
+
+            customRadios.forEach(customRadio => {
+                // Tìm range-slider gần nhất với customRadio này.
+                // Giả định: range-slider nằm trong cùng <li> với label chứa customRadio,
+                // hoặc là anh em kế tiếp của label/input.
+                let rangeSlider = null;
+                const parentLi = customRadio.closest('li'); // Thường thì radio và slider sẽ nằm trong cùng 1 LI
+
+                if (parentLi) {
+                    rangeSlider = parentLi.querySelector('range-slider');
+                } else {
+                    // Fallback: nếu không có <li>, thử tìm range-slider là anh em kế tiếp của parent của customRadio
+                    // (nếu customRadio được bọc trong label)
+                    if (customRadio.parentElement && customRadio.parentElement.nextElementSibling && customRadio.parentElement.nextElementSibling.tagName === 'RANGE-SLIDER') {
+                        rangeSlider = customRadio.parentElement.nextElementSibling;
                     }
-                };
+                    // Hoặc nếu customRadio không được bọc trong label, và range-slider là anh em kế tiếp của nó
+                    else if (customRadio.nextElementSibling && customRadio.nextElementSibling.tagName === 'RANGE-SLIDER'){
+                         rangeSlider = customRadio.nextElementSibling;
+                    }
+                }
+                // console.log('Found customRadio:', customRadio, 'Associated rangeSlider:', rangeSlider);
 
-                otherRadiosInGroup.forEach(radio => {
-                    radio.removeEventListener('change', handleRadioChange); // Xóa listener cũ nếu có
-                    radio.addEventListener('change', handleRadioChange);
-                });
 
-                // Set initial state for the range slider
-                handleRadioChange();
-            }
+                if (rangeSlider) {
+                    // Lấy tất cả radio trong cùng một nhóm (cùng `name`)
+                    const radioGroupName = customRadio.name;
+                    if (!radioGroupName) {
+                        // console.warn('Custom radio does not have a "name" attribute, cannot group for toggle.', customRadio);
+                        return; // Bỏ qua nếu không có name
+                    }
+                    
+                    const radiosInGroup = Array.from(container.querySelectorAll(`input[type="radio"][name="${radioGroupName}"]`));
+                    // console.log('Radios in group:', radioGroupName, radiosInGroup);
+
+                    const handleRadioChange = () => {
+                        // console.log(`Radio changed in group ${radioGroupName}. Custom radio checked: ${customRadio.checked}`);
+                        if (customRadio.checked) {
+                            rangeSlider.classList.remove('hidden-by-radio');
+                        } else {
+                            rangeSlider.classList.add('hidden-by-radio');
+                        }
+                    };
+
+                    radiosInGroup.forEach(radio => {
+                        // Gỡ listener cũ để tránh gắn nhiều lần khi slotchange hoặc re-render
+                        radio.removeEventListener('change', handleRadioChange); 
+                        radio.addEventListener('change', handleRadioChange);
+                    });
+
+                    // Thiết lập trạng thái ban đầu cho range-slider
+                    handleRadioChange();
+                } else {
+                    // console.warn('Could not find an associated range-slider for custom radio:', customRadio);
+                }
+            });
         });
     }
     
@@ -183,9 +228,7 @@ class FilterBlock extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'open' && this.shadowRoot) { // Đảm bảo shadowRoot đã sẵn sàng
-            // CSS :host([open]) sẽ tự động xử lý việc hiển thị content
-            // Chỉ cần cập nhật aria-expanded nếu thuộc tính 'open' thay đổi từ bên ngoài
+        if (name === 'open' && this.shadowRoot) {
              if (this.hasAttribute('open')) {
                 this._header.setAttribute('aria-expanded', 'true');
             } else {
