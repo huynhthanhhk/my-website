@@ -1,21 +1,23 @@
 // js/components/SiteHeader.js
+// ... (phần template và class definition giữ nguyên)
 const headerTemplate = document.createElement('template');
 headerTemplate.innerHTML = `
     <style>
-        /* CSS cho header.css */
         :host {
-            display: block; /* Quan trọng cho custom elements */
+            display: block;
+            width: 100%; /* Cho phép host chiếm toàn bộ chiều ngang */
         }
         header {
-            background-color: var(--secondary-color);
+            background-color: var(--secondary-color); /* Màu nền full-width */
             color: var(--white-color);
             padding: 15px 0;
             border-bottom: 5px solid var(--primary-color);
+            width: 100%; /* Đảm bảo thẻ header bên trong cũng full-width */
         }
-        .header-container {
+        .header-container { /* Container cho nội dung */
             max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 15px;
+            margin: 0 auto; /* Căn giữa nội dung */
+            padding: 0 15px; /* Padding cho nội dung bên trong container */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -106,7 +108,7 @@ headerTemplate.innerHTML = `
         </div>
     </header>
 `;
-
+// Class SiteHeader giữ nguyên
 class SiteHeader extends HTMLElement {
     constructor() {
         super();
