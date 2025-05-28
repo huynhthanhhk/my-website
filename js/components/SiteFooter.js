@@ -1,22 +1,21 @@
 // js/components/SiteFooter.js
 const footerTemplate = document.createElement('template');
 footerTemplate.innerHTML = `
-      <style>
+    <style>
+        /* CSS cho footer.css */
         :host {
             display: block;
-            width: 100%; /* Cho phép host chiếm toàn bộ chiều ngang */
         }
         footer {
-            background-color: var(--secondary-color); /* Màu nền full-width */
-            color: #a0a0a0;
+            background-color: var(--secondary-color);
+            color: #a0a0a0; /* Light text color for footer */
             padding: 30px 0;
             margin-top: 30px;
-            width: 100%; /* Đảm bảo thẻ footer bên trong cũng full-width */
         }
-        .footer-container { /* Container cho nội dung */
+        .footer-container {
             max-width: 1100px;
-            margin: 0 auto; /* Căn giữa nội dung */
-            padding: 0 15px; /* Padding cho nội dung bên trong container */
+            margin: 0 auto;
+            padding: 0 15px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -46,9 +45,8 @@ footerTemplate.innerHTML = `
             text-align: center;
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid #335c55;
+            border-top: 1px solid #335c55; /* Darker shade of secondary */
             font-size: 0.9em;
-            /* footer-bottom không cần max-width vì nó nằm trong footer-container đã căn giữa */
         }
     </style>
     <footer>
@@ -89,7 +87,7 @@ footerTemplate.innerHTML = `
             <p>&copy; ${new Date().getFullYear()} Tên Công Ty. Bảo lưu mọi quyền.</p>
         </div>
     </footer>
-;
+`;
 
 class SiteFooter extends HTMLElement {
     constructor() {
