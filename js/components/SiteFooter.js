@@ -89,7 +89,7 @@ footerTemplate.innerHTML = `
             <p>&copy; ${new Date().getFullYear()} Tên Công Ty. Bảo lưu mọi quyền.</p>
         </div>
     </footer>
-`;
+;
 
 class SiteFooter extends HTMLElement {
     constructor() {
