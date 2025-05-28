@@ -1,0 +1,111 @@
+/* css/components/section-layouts.css */
+
+/* Section 2 Layout */
+.section-2-layout {
+    display: flex;
+    gap: 20px;
+}
+
+.section-2-left {
+    width: 20%;
+    flex-shrink: 0; /* Ngăn co lại khi nội dung bên phải dài */
+}
+
+.section-2-right {
+    width: 80%;
+    flex-grow: 1; /* Cho phép mở rộng nếu bên trái co lại */
+}
+
+/* Section 3 Layout */
+.section-3-layout {
+    display: flex;
+    gap: 30px; /* Khoảng cách lớn hơn một chút */
+}
+
+.section-3-left {
+    width: 40%;
+    flex-shrink: 0;
+}
+
+.section-3-right {
+    width: 60%;
+    flex-grow: 1;
+}
+
+.featured-list-box {
+    border: 1px solid var(--medium-gray-color);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--box-shadow);
+}
+
+.featured-list-thumbnail {
+    width: 100%;
+    max-width: 150px; /* Giới hạn kích thước ảnh thumbnail */
+    height: auto;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    float: left; /* Cho ảnh nổi bên trái */
+    margin-right: 15px;
+}
+.featured-list-box h4 {
+    margin-bottom: 5px;
+}
+.featured-list-box p {
+    margin-bottom: 0;
+    font-size: 0.9em;
+    color: var(--dark-gray-color);
+}
+.featured-list-box::after { /* Clearfix cho float */
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+/* Section 5 Layout */
+.section-5-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.section-5-left,
+.section-5-right {
+    width: 50%;
+}
+
+/* Responsive for layouts */
+@media (max-width: 992px) { /* Điều chỉnh cho tablet nhỏ hơn */
+    .section-2-left {
+        width: 25%;
+    }
+    .section-2-right {
+        width: 75%;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .section-2-layout,
+    .section-3-layout,
+    .section-5-layout {
+        flex-direction: column;
+    }
+
+    .section-2-left,
+    .section-2-right,
+    .section-3-left,
+    .section-3-right,
+    .section-5-left,
+    .section-5-right {
+        width: 100%;
+    }
+
+    .section-2-left { /* Bộ lọc trên mobile sẽ có xử lý riêng */
+        margin-bottom: 20px;
+    }
+    .featured-list-thumbnail {
+        max-width: 100px;
+    }
+}
