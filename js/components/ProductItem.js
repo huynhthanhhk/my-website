@@ -279,8 +279,15 @@ class ProductItem extends HTMLElement {
         this.shadowRoot.querySelector('#furniture').textContent = data.furniture || 'Không xác định';
         
         const statusBadge = this.shadowRoot.getElementById('statusBadge');
-        statusBadge.textContent = data.status === 'sold' ? 'Đã bán' : 'Còn hàng';
-        statusBadge.className = `status-badge ${data.status === 'sold' ? 'sold' : 'available'}`;
+        if (data.status === 'sold') {
+            statusBadge.textContent = 'Đã bán';
+            statusBadge.className = 'status-badge sold'; // Chỉ có class 'sold'
+        } else {
+            // Nếu là 'available' hoặc trạng thái khác không phải 'sold'
+            statusBadge.textContent = ''; // Xóa text
+            statusBadge.className = 'status-badge available'; // Giữ class 'available' để CSS có thể ẩn nó
+        }
+        
         
         this._favIcon.classList.toggle('active', data.isFavorite || false);
         this._favIcon.setAttribute('aria-pressed', (data.isFavorite || false).toString());
