@@ -27,14 +27,25 @@ productItemTemplate.innerHTML = `
         }
 
         .status-badge {
-            position: absolute; top: 10px; left: 10px;
-            background-color: rgba(0,0,0,0.65); color: var(--white-color, #fff);
-            padding: 4px 8px; border-radius: var(--border-radius, 5px);
-            font-size: 0.75em; display: flex; align-items: center;
-            font-weight: 500; z-index: 2; 
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            /* background-color: var(--primary-color); Bỏ màu nền mặc định ở đây */
+            color: white;
+            padding: 3px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.7rem;
+            font-weight: 500;
+            z-index: 1;
+            line-height: 1.2; /* Thêm để chữ nhỏ dễ đọc hơn */
         }
-        .status-badge.sold { background-color: #c0392b; }
-        .status-badge.available { background-color: var(--primary-color, #53b966); }
+        .status-badge.sold {
+            display: inline-block !important; /* Đảm bảo hiện */
+            background-color: var(--dark-gray-color); 
+        }
+        .status-badge.available {
+            display: none !important; 
+        }
 
         .image-count { /* Vị trí: góc phải dưới */
             position: absolute; bottom: 10px; right: 10px;
@@ -53,15 +64,41 @@ productItemTemplate.innerHTML = `
         .fav-icon.active svg, .fav-icon:hover svg { fill: #e74c3c; }
 
         .image-nav-button {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.4); color: white;
-            border: none; padding: 8px 5px; cursor: pointer; z-index: 1;
-            opacity: 0; transition: opacity 0.2s ease; border-radius: 3px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4); /* Giữ lại hoặc điều chỉnh nền */
+            color: white;
+            border: none;
+            cursor: pointer;
+            
+            /* TĂNG KÍCH THƯỚC NÚT */
+             width: 32px;  /* Đặt chiều rộng */
+            height: 32px; /* Đặt chiều cao BẰNG chiều rộng để có hình tròn */
+            padding: 0;   /* Bỏ padding nếu đã set width/height */
+            font-size: 1.2rem; /* Điều chỉnh kích thước icon nếu cần */
+            line-height: 32px; /* Căn giữa icon theo chiều dọc (bằng height) */
+            text-align: center; /* Căn giữa icon theo chiều ngang */
+            
+            border-radius: 50%; /* QUAN TRỌNG: Để tạo hình tròn */
+            
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            z-index: 2;
+            display: flex; /* Thêm để căn giữa SVG nếu dùng SVG */
+            align-items: center; /* Căn giữa SVG theo chiều dọc */
+            justify-content: center; /* Căn giữa SVG theo chiều ngang */
         }
-        .item-image-wrapper:hover .image-nav-button { opacity: 1; }
-        .image-nav-prev { left: 5px; }
-        .image-nav-next { right: 5px; }
-        .image-nav-button:hover { background-color: rgba(0, 0, 0, 0.7); }
+        .item-image-wrapper:hover .image-nav-button { opacity: 0.8; }
+        .item-image-wrapper:hover .image-nav-button:hover {
+            opacity: 1; /* Rõ hơn nữa khi hover trực tiếp vào nút */
+        }
+        .image-nav-prev { left: 8px; }
+        .image-nav-next { right: 8px; }
+        .image-nav-button:hover { background-color: rgba(0, 0, 0, 0.7);
+            opacity: 1; }
+        
+            
 
         .item-content { 
             padding: 12px; cursor: pointer; display: flex; 
