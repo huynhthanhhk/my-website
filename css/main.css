@@ -1909,3 +1909,20 @@ modal-popup.loan-schedule-modal-instance .popup-content-wrapper {
         display: block !important; 
     }
 }
+.status-badge.available {
+    display: none !important; /* Ẩn hoàn toàn khi là 'available' */
+}
+.status-badge.sold {
+    display: inline-block; /* Đảm bảo 'Đã bán' vẫn hiện */
+    /* Các style khác cho 'sold' badge (màu nền, màu chữ) bạn đã có hoặc có thể thêm */
+    background-color: var(--dark-gray-color); /* Ví dụ */
+    color: var(--text-color-inverted);
+    padding: 3px 8px;
+    border-radius: var(--border-radius);
+    font-size: 0.7rem;
+    font-weight: 500;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
