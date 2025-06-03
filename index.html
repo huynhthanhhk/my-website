@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Bất Động Sản</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <link rel="stylesheet" href="css/main.css">
+    <script type="module" src="js/main.js"></script>
+
+    
+    </head>
+<body>
+    <site-header></site-header>
+
+    <div class="site-container"> 
+        <main>
+            <section id="section-1" class="main-section">
+                <breadcrumb-nav></breadcrumb-nav>
+                <h1>Bán căn hộ TP. Hồ Chí Minh</h1>
+                <area-suggestions data-city="TP. Hồ Chí Minh"></area-suggestions>
+            </section>
+
+            <section id="section-2" class="main-section section-2-layout">
+                <div class="section-2-left"> <div class="main-filter-box" id="desktop-filter-box"> <button id="close-filter-panel-mobile" class="close-filter-panel-button">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-right: 5px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            <span>Đóng</span>
+                        </button>
+                        <h3>Bộ lọc</h3>
+                        
+                        <div class="filter-group" id="filter-group-price">
+                            <h4>Giá bán</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-price" value="0-3"> Dưới 3 tỷ</label></li>
+                                <li><label><input type="radio" name="filter-price" value="3-5" checked> Dưới 5 tỷ</label></li>
+                                <li><label><input type="radio" name="filter-price" value="10-"> Trên 10 tỷ</label></li>
+                                <li>
+                                    <label><input type="radio" name="filter-price" value="custom" class="custom-option-radio" data-controls-slider="price-range-slider-instance"> Tuỳ chọn</label>
+                                    <range-slider id="price-range-slider-instance" class="filter-range-slider is-hidden" 
+                                                  min="0.1" max="100" step="0.1" unit=" tỷ" 
+                                                  default-min="1" default-max="20">
+                                    </range-slider>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-group" id="filter-group-area">
+                            <h4>Diện tích (m²)</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-area" value="0-45" checked> Dưới 45 m²</label></li>
+                                <li><label><input type="radio" name="filter-area" value="45-60"> 45 - 60 m²</label></li>
+                                <li><label><input type="radio" name="filter-area" value="60-80"> 60 - 80 m²</label></li>
+                                <li><label><input type="radio" name="filter-area" value="80-120"> 80 - 120 m²</label></li>
+                                <li><label><input type="radio" name="filter-area" value="120-"> Trên 120 m²</label></li>
+                                <li>
+                                    <label><input type="radio" name="filter-area" value="custom" class="custom-option-radio" data-controls-slider="area-range-slider-instance"> Tuỳ chọn</label>
+                                    <range-slider id="area-range-slider-instance" class="filter-range-slider is-hidden" 
+                                                  min="20" max="500" step="1" unit=" m²" 
+                                                  default-min="50" default-max="150">
+                                    </range-slider>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="filter-group" id="filter-group-bedrooms">
+                            <h4>Số phòng ngủ</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-bedrooms" value="all" checked> Tất cả</label></li>
+                                <li><label><input type="radio" name="filter-bedrooms" value="1"> 1 PN</label></li>
+                                <li><label><input type="radio" name="filter-bedrooms" value="2"> 2 PN</label></li>
+                                <li><label><input type="radio" name="filter-bedrooms" value="3"> 3 PN</label></li>
+                                <li><label><input type="radio" name="filter-bedrooms" value="4+"> 4+ PN</label></li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-group" id="filter-group-toilets">
+                            <h4>Số toilet</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-toilets" value="all" checked> Tất cả</label></li>
+                                <li><label><input type="radio" name="filter-toilets" value="1"> 1 toilet</label></li>
+                                <li><label><input type="radio" name="filter-toilets" value="2"> 2 toilets</label></li>
+                                <li><label><input type="radio" name="filter-toilets" value="3+"> 3+ toilets</label></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="filter-group" id="filter-group-condition">
+                            <h4>Hiện trạng</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-condition" value="all" checked> Tất cả</label></li>
+                                <li><label><input type="radio" name="filter-condition" value="new"> Mới</label></li>
+                                <li><label><input type="radio" name="filter-condition" value="used"> Đã qua sử dụng</label></li>
+                                <li><label><input type="radio" name="filter-condition" value="building"> Đang xây dựng</label></li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-group" id="filter-group-legal">
+                            <h4>Pháp lý</h4>
+                            <ul class="filter-options-list">
+                                <li><label><input type="radio" name="filter-legal" value="all" checked> Tất cả</label></li>
+                                <li><label><input type="radio" name="filter-legal" value="sohong"> Sổ hồng</label></li>
+                                <li><label><input type="radio" name="filter-legal" value="hdmb"> HĐ mua bán</label></li>
+                                <li><label><input type="radio" name="filter-legal" value="other"> Khác</label></li>
+                            </ul>
+                        </div>
+                        
+                        <button id="apply-filters-button-main" class="btn-primary" style="width: 100%; margin-top: 20px;">Áp dụng bộ lọc</button>
+                    </div>
+                </div>
+                <div class="section-2-right">
+                    <div class="search-bar-container">
+                        <input type="search" placeholder="Tìm kiếm theo tiêu đề, địa chỉ..." class="main-search-input">
+                        <button class="search-button btn-primary">Tìm</button>
+                    </div>
+                    <div class="search-results-info">
+                        <p><span id="search-results-count">6</span> kết quả bất động sản</p>
+                        <div class="sort-options">
+                            <label for="sort-by">Sắp xếp theo:</label>
+                            <select id="sort-by" name="sort-by">
+                                <option value="default">Mặc định</option>
+                                <option value="price-asc">Giá tăng dần</option>
+                                <option value="price-desc">Giá giảm dần</option>
+                                <option value="date-newest">Mới nhất</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="mobile-filter-trigger" class="mobile-filter-trigger-button">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+                        <span>Bộ lọc</span>
+                    </button>
+                    
+                    <product-list></product-list>
+                    <custom-pagination data-total-pages="1" data-current-page="1"></custom-pagination>
+                </div>
+            </section>
+
+            <section id="section-3" class="main-section section-3-layout">
+                <div class="section-3-left">
+                    <h3>Khám phá thêm các loại hình khác tại TP. Hồ Chí Minh</h3>
+                    <property-type-tabs></property-type-tabs>
+                </div>
+                <div class="section-3-right">
+                    <h3>Danh sách chung cư TP. Hồ Chí Minh</h3>
+                    <div class="featured-list-box"> 
+                        <img src="assets/images/chung-cu-hcm.jpg" alt="Danh sách chung cư TP. Hồ Chí Minh" class="featured-list-thumbnail">
+                        <h4>Danh sách chung cư ở TP. Hồ Chí Minh</h4>
+                        <p>Danh sách chung cư cập nhật mới nhất năm 2025.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-4" class="main-section">
+                <price-statistics data-area="TP. Hồ Chí Minh"></price-statistics>
+            </section>
+
+            <section id="section-5" class="main-section section-5-layout">
+                <div class="section-5-left">
+                    <faq-section></faq-section>
+                </div>
+                <div class="section-5-right">
+                    <h3>Nội dung SEO cho khu vực</h3>
+                    <p>Thông tin về thị trường bất động sản TP. Hồ Chí Minh: tiềm năng phát triển, các dự án nổi bật, lời khuyên đầu tư. Chúng tôi cung cấp danh sách căn hộ đa dạng, từ chung cư cao cấp đến nhà ở giá rẻ, phù hợp với mọi nhu cầu của bạn. Khám phá ngay các căn hộ tại Quận 1, Quận 7, Tân Phú, Bình Thạnh với giá tốt nhất.</p>
+                    <p>Từ khóa: bán căn hộ TP. Hồ Chí Minh, chung cư giá rẻ, căn hộ cao cấp, mua nhà Sài Gòn, bất động sản TP.HCM.</p>
+                </div>
+            </section>
+        </main>
+    </div> <site-footer></site-footer>
+
+    <modal-popup id="product-detail-popup" class="product-detail-modal no-default-close-btn">
+        <div slot="header" class="pdp-header" id="pdpSlottedHeader">
+            <h2 id="pdp-title-fixed">Chi tiết sản phẩm</h2> 
+            <div class="pdp-header-actions">
+                <button class="pdp-action-btn" id="pdp-share-btn" aria-label="Chia sẻ">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    <span>Chia sẻ</span>
+                </button>
+                <button class="pdp-action-btn" id="pdp-favorite-btn" aria-label="Thêm vào yêu thích">
+                    <svg class="icon-heart-empty" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    <svg class="icon-heart-filled" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="display:none;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#e74c3c"/></svg>
+                    <span id="pdp-favorite-btn-text">Yêu thích</span>
+                </button>
+                <button class="pdp-action-btn pdp-custom-close-btn" id="pdp-custom-close-btn" aria-label="Đóng chi tiết sản phẩm">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                    <span style="display: none;">Đóng</span> </button>
+                </div>
+        </div>
+        
+        <div id="product-detail-content-body">
+            <p>Đang tải thông tin sản phẩm...</p>
+        </div>
+    </modal-popup>
+    <modal-popup id="image-detail-popup" class="image-detail-modal-instance full-width no-default-close-btn">
+     
+        <div slot="header" id="image-detail-popup-header-slot" class="image-detail-popup-header">
+        </div>
+        <div id="image-detail-popup-body" style="height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+            <p style="padding:20px; text-align:center;">Đang tải ảnh chi tiết...</p>
+        </div>
+    </modal-popup>
+
+    <modal-popup id="area-list-popup">
+        <h2 slot="header">Chọn Khu Vực</h2>
+        <div id="area-list-content"></div>
+    </modal-popup>
+    <modal-popup id="contact-form-modal" class="contact-form-specific-modal">
+        <h2 slot="header" id="contact-form-modal-title">Yêu cầu tư vấn</h2>
+        <div id="contact-form-modal-body">
+            <form id="pdp-actual-contact-form">
+                <p class="contact-form-intro"> 
+                    Vui lòng để lại thông tin, chúng tôi sẽ liên hệ với bạn sớm nhất.
+                </p>
+                <div class="form-group contact-form-product-display">
+                    <label for="contact-product-name-display">Sản phẩm quan tâm:</label>
+                    <strong id="contact-form-product-name-display">N/A</strong>
+                </div>
+                <div class="form-group">
+                    <label for="contact-name">Họ và tên*</label>
+                    <input type="text" id="contact-name" name="contactName" placeholder="Nguyễn Văn A" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-phone">Số điện thoại*</label>
+                    <input type="tel" id="contact-phone" name="contactPhone" placeholder="09xxxxxxxx" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">Email</label>
+                    <input type="email" id="contact-email" name="contactEmail" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Nội dung</label>
+                    <textarea id="contact-message" name="contactMessage" placeholder="Tôi cần tư vấn thêm về sản phẩm này..." rows="3"></textarea>
+                </div>
+                <input type="hidden" id="contact-product-id-hidden" name="productId">
+            </form>
+        </div>
+        <div slot="footer"> <button type="submit" form="pdp-actual-contact-form" class="btn-primary" style="min-width: 120px;">Gửi yêu cầu</button>
+        </div>
+    </modal-popup>
+    <modal-popup id="loan-schedule-modal" class="loan-schedule-modal-instance full-width">
+        <div slot="header" class="loan-schedule-modal-header">
+            <button class="pdp-action-btn back-to-pdp-btn" id="lc-schedule-back-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                <span>Chi tiết sản phẩm</span>
+            </button>
+            <h3 id="loan-schedule-title">Lịch Biểu Trả Nợ</h3>
+            </div>
+        <div id="loan-schedule-modal-body" style="padding: 15px; text-align: center;">
+            
+            </div>
+    </modal-popup>
+
+    <div class="filter-panel-overlay" id="filter-panel-overlay"></div>
+
+    
+</body>
+</html>
