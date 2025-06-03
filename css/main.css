@@ -1,157 +1,1798 @@
 /* css/main.css */
+
+/* ------------------------- */
+/* ----- BIẾN CSS (CSS VARIABLES) ----- */
+/* ------------------------- */
 :root {
-    --primary-color: #53b966;
-    --secondary-color: #004238;
-    --text-color: #333;
+    --primary-color: #53b966; /* Màu chính - xanh lá dịu */
+  --primary-color-rgb: 83, 185, 102;
+  --primary-color-alpha: rgba(83, 185, 102, 0.5);
+  --primary-hsl: 142, 45%, 60%;
+  --primary-color: hsl(var(--primary-hsl));            /* đầy đủ */
+
+   --secondary-hsl: 168, 100%, 13%;
+  --secondary-color: hsl(var(--secondary-hsl));
+  --secondary-color-70: hsl(var(--secondary-hsl) / 0.7);
+ 
+  --secondary-color: #004238; /* Màu phụ - xanh đậm */
+  --secondary-color-rgb: 0, 66, 56;
+  --secondary-color-alpha: rgba(0, 66, 56, 0.5);
+    --text-color: #333333;
+    --text-color-light: #555555;
+    --text-color-inverted: #ffffff;
+    --background-color: #ffffff;
     --light-gray-color: #f4f4f4;
-    --medium-gray-color: #ccc;
-    --dark-gray-color: #666;
-    --white-color: #fff;
+    --medium-gray-color: #dddddd;
+    --dark-gray-color: #6c757d;
+    --zalo-blue-color: #0068FF; 
+    
     --border-radius: 5px;
-    --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --box-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    --font-family-sans-serif: Arial, Helvetica, sans-serif;
+    --max-width-container: 1100px; 
+    --modal-max-width: 600px; /* Max-width mặc định cho modal-popup */
+}
+
+/* ------------------------- */
+/* ----- RESET & BODY ----- */
+/* ------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--white-color);
-    color: var(--text-color);
+    font-family: var(--font-family-sans-serif);
     line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.site-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 15px; /* Thêm padding để nội dung không sát viền */
-    overflow-x: hidden; /* Ngăn scroll ngang không mong muốn */
+body.no-scroll { 
+    overflow: hidden;
+}
+
+/* ------------------------- */
+/* ----- CONTAINER & LAYOUT CHUNG ----- */
+/* ------------------------- */
+.site-container { 
+    max-width: var(--max-width-container);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .main-section {
-    padding: 20px 0;
+    padding-top: 25px;
+    padding-bottom: 25px;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--light-gray-color);
 }
 
-.main-section:last-child {
-    border-bottom: none;
-}
-
+/* ------------------------- */
+/* ----- KIỂU CHỮ (TYPOGRAPHY) ----- */
+/* ------------------------- */
 h1, h2, h3, h4, h5, h6 {
+    margin-top: 0; margin-bottom: 0.75rem; font-weight: 600;
+    line-height: 1.3; color: var(--secondary-color); 
+}
+h1 { font-size: 2.2rem; margin-bottom: 1.5rem; } 
+h2 { font-size: 1.8rem; margin-bottom: 1.25rem; } 
+h3 { font-size: 1.5rem; margin-bottom: 1rem; }   
+h4 { font-size: 1.2rem; }                         
+p { margin-top: 0; margin-bottom: 1rem; }
+a { color: var(--primary-color); text-decoration: none; transition: color 0.2s ease-in-out; }
+a:hover { color: var(--secondary-color); }
+img, svg { vertical-align: middle; max-width: 100%; height: auto; }
+
+/* ------------------------- */
+/* ----- FORM ELEMENTS ----- */
+/* ------------------------- */
+button, input, select, textarea { font-family: inherit; font-size: 1rem; line-height: inherit; margin: 0; }
+button, select { text-transform: none; }
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+    -webkit-appearance: button; cursor: pointer; border-radius: var(--border-radius);
+    padding: 0.5rem 1rem; border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary-color); outline-offset: 2px;
+    box-shadow: 0 0 0 0.2rem rgba(83, 185, 102, 0.25);
+}
+.btn-primary { color: var(--text-color-inverted); background-color: var(--primary-color); border-color: var(--primary-color); }
+.btn-primary:hover { background-color: #45a054; border-color: #45a054; }
+.btn-secondary { color: var(--text-color); background-color: var(--light-gray-color); border-color: var(--medium-gray-color); }
+.btn-secondary:hover { background-color: #e0e0e0; border-color: #c0c0c0; }
+input[type="text"], input[type="search"], input[type="email"], input[type="tel"],
+input[type="number"], input[type="password"], select, textarea {
+    display: block; width: 100%; padding: 0.5rem 0.75rem; font-size: 1rem; font-weight: 400;
+    line-height: 1.5; color: var(--text-color); background-color: var(--background-color);
+    background-clip: padding-box; border: 1px solid var(--medium-gray-color);
+    appearance: none; border-radius: var(--border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
+textarea { resize: vertical; }
+
+/* ------------------------- */
+/* ----- LỚP TIỆN ÍCH (UTILITY CLASSES) ----- */
+/* ------------------------- */
+.hidden, .is-hidden { display: none !important; }
+.highlight-price { color: var(--primary-color) !important; font-weight: bold !important; font-size: 1.2em; }
+.text-center { text-align: center !important; }
+.d-flex { display: flex !important; }
+.justify-content-between { justify-content: space-between !important; }
+.align-items-center { align-items: center !important; }
+
+/* ------------------------------------ */
+/* ----- LAYOUT CHO CÁC SECTION CỤ THỂ ----- */
+/* ------------------------------------ */
+.section-2-layout { display: flex; gap: 20px; }
+.section-2-left { width: 30%; flex-shrink: 0; } 
+.section-2-right { width: 70%; flex-grow: 1; }
+.section-3-layout { display: flex; gap: 30px; }
+.section-3-left { width: 40%; flex-shrink: 0; }
+.section-3-right { width: 60%; flex-grow: 1; }
+.featured-list-box { border: 1px solid var(--medium-gray-color); border-radius: var(--border-radius); padding: 15px; margin-bottom: 15px; box-shadow: var(--box-shadow); background-color: var(--background-color); }
+.featured-list-thumbnail { width: 100%; max-width: 120px; height: auto; border-radius: var(--border-radius); margin-bottom: 10px; float: left; margin-right: 15px; }
+.featured-list-box::after { content: ""; clear: both; display: table; }
+.section-5-layout { display: flex; gap: 30px; }
+.section-5-left, .section-5-right { width: 50%; }
+
+/* ----- GLOBAL STYLES CHO INDEX.HTML (Section 2 và Bộ lọc) ----- */
+.search-bar-container { display: flex; gap: 10px; margin-bottom: 20px; }
+.main-search-input { flex-grow: 1; }
+.search-results-info {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding: 10px 15px; background-color: var(--light-gray-color);
+    border-radius: var(--border-radius); font-size: 0.9rem;
+}
+.search-results-info p { margin: 0; color: var(--text-color-light); margin-right: 15px; }
+.search-results-info #search-results-count { font-weight: bold; color: var(--primary-color); }
+.sort-options { display: flex; align-items: center; gap: 8px; }
+.sort-options label { color: var(--text-color-light); white-space: nowrap; font-size: 0.9em; }
+.sort-options select { padding: 5px 8px; min-width: 140px; font-size: 0.9em; border-radius: var(--border-radius); border: 1px solid var(--medium-gray-color); background-color: var(--background-color); }
+
+.main-filter-box {
+    background-color: var(--background-color, #fff); padding: 20px;
+    border-radius: var(--border-radius, 5px); box-shadow: var(--box-shadow);
+    position: relative; 
+}
+.main-filter-box > h3 {
+    font-size: 1.4rem; color: var(--secondary-color); margin-bottom: 25px;
+    padding-bottom: 12px; border-bottom: 2px solid var(--primary-color);
+}
+.filter-group { margin-bottom: 25px; }
+.filter-group:last-of-type { margin-bottom: 0; }
+.filter-group h4 { font-size: 1rem; font-weight: 600; color: var(--text-color); margin-bottom: 12px; }
+.filter-options-list { list-style: none !important; padding-left: 0 !important; margin-left: 0 !important; }
+.filter-options-list li { list-style-type: none !important; padding-left: 0 !important; margin-left: 0 !important; margin-bottom: 12px !important; }
+.filter-options-list li:last-child { margin-bottom: 0 !important; }
+.filter-options-list label { display: flex; align-items: center; cursor: pointer; font-size: 0.9rem; color: var(--text-color-light, #555); }
+.filter-options-list label:hover { color: var(--primary-color); }
+.filter-options-list input[type="radio"] { margin-right: 8px; margin-top: 0; flex-shrink: 0; accent-color: var(--primary-color); }
+.filter-range-slider {
+    width: 100%; max-height: 200px; overflow: hidden;
+    transition: max-height 0.35s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out, visibility 0s linear 0s;
+    opacity: 1; margin-top: 10px; visibility: visible; display: block; 
+}
+.filter-range-slider.is-hidden { 
+    max-height: 0; opacity: 0; margin-top: 0; visibility: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out, margin-top 0.3s ease-in-out, visibility 0s linear 0.3s;
+    overflow: hidden;
+}
+
+/* ----- BỘ LỌC TRÊN MOBILE (Panel trượt từ trái) ----- */
+.mobile-filter-trigger-button {
+    display: none; padding: 8px 15px; font-size: 0.95rem; font-weight: 500;
+    color: var(--primary-color); background-color: var(--background-color);
+    border: 1px solid var(--primary-color); border-radius: var(--border-radius);
+    cursor: pointer; margin-bottom: 15px; width: auto; text-align: center;
+}
+.mobile-filter-trigger-button svg { margin-right: 8px; vertical-align: middle; }
+
+.filter-panel-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); z-index: 1000; opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.filter-panel-overlay.active { display: block; opacity: 1; }
+
+.close-filter-panel-button {
+    display: none; position: absolute; top: 15px; right: 15px;
+    background: transparent; border: none; font-size: 1rem; padding: 8px;
+    cursor: pointer; color: var(--dark-gray-color); z-index: 1010;
+    line-height: 1; border-radius: 50%;
+}
+.close-filter-panel-button:hover { background-color: var(--light-gray-color); color: var(--primary-color); }
+.close-filter-panel-button svg { display: block; width: 18px; height: 18px; }
+.close-filter-panel-button span { display: none; }
+
+
+/* ----- POPUP CHI TIẾT SẢN PHẨM (PDP) - CẬP NHẬT ----- */
+/* Style cho khu vực Tiện ích lân cận */
+.pdp-nearby-amenities { /* Kế thừa từ .pdp-section */ }
+.pdp-nearby-amenities h4 { /* Đã có style từ .pdp-section h4 */ }
+
+.pdp-amenities-grid {
+    display: grid;
+    /* * Desktop: cố gắng hiển thị 3 card trên một hàng.
+     * minmax(180px, 1fr): mỗi card có chiều rộng tối thiểu 180px, 
+     * và sẽ co giãn để lấp đầy không gian nếu có thể.
+     * Điều chỉnh 180px để thay đổi số lượng card trên hàng cho desktop.
+     */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px; /* Khoảng cách giữa các card */
+    margin-top: 10px;
+}
+
+.amenity-card {
+    background-color: var(--background-color); /* Hoặc --light-gray-color nếu muốn nền khác */
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-align: center; /* Căn giữa nội dung trong card */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.amenity-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+}
+
+.amenity-icon {
+    display: inline-block; 
+    width: 32px;  /* Kích thước icon */
+    height: 32px; /* Kích thước icon */
+    margin-bottom: 10px; /* Khoảng cách với tiêu đề tiện ích */
+    color: var(--primary-color); /* Màu của icon, SVG sẽ kế thừa */
+}
+.amenity-card .amenity-icon svg { /* Đảm bảo SVG chiếm toàn bộ không gian của .amenity-icon */
+    width: 100%;
+    height: 100%;
+    display: block; 
+}
+.amenity-card .amenity-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+.amenity-card .amenity-description p {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    line-height: 1.4;
+    margin-bottom: 3px;
+}
+.amenity-card .amenity-description p:last-child {
+    margin-bottom: 0;
+}
+
+
+.amenity-title { /* Đây là thẻ H6 */
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--secondary-color);
     margin-top: 0;
+    margin-bottom: 8px;
 }
 
-h1 {
-    font-size: 2.2em;
-    margin-bottom: 15px;
+.amenity-description {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    line-height: 1.4;
+}
+.amenity-description p {
+    margin-bottom: 4px; /* Khoảng cách giữa các mục mô tả */
+}
+.amenity-description p:last-child {
+    margin-bottom: 0;
 }
 
-h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+modal-popup.product-detail-modal { 
+    --modal-max-width: 1100px; 
+}
+modal-popup.product-detail-modal .popup-content-wrapper { 
+    width: 100%; height: 100%; 
+    max-height: 100vh; border-radius: 0; 
 }
 
-a {
-    color: var(--primary-color);
-    text-decoration: none;
+/* Header của PDP (là div[slot="header"] được slot vào trong modal-popup) */
+/* Nó sẽ nằm bên trong .popup-header của ModalPopup.js 
+   (.popup-header của ModalPopup.js đã có nền rgba(0, 66, 56, 0.85) và sticky) */
+
+.pdp-header.scrolled-past-hero { 
+    background-color: var(--background-color, #fff) !important; 
+    box-shadow: var(--box-shadow); 
+    border-bottom: 1px solid var(--medium-gray-color, #eee);
 }
 
-a:hover {
-    text-decoration: underline;
+#pdp-title-fixed { /* Tiêu đề H2 tĩnh "Chi tiết sản phẩm" trong index.html */
+    margin: 0; font-size: 1.2rem; 
+    color: var(--text-color-inverted, #fff); /* BAN ĐẦU MÀU TRẮNG */
+    flex-grow: 1; margin-right: 15px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+    transition: color 0.3s ease; 
+}
+.pdp-header.scrolled-past-hero #pdp-title-fixed { 
+    color: var(--secondary-color); /* Đổi màu khi nền .pdp-header sáng */
 }
 
-button,
-select,
-input[type="text"],
-input[type="search"],
-input[type="number"] {
-    padding: 10px 15px;
-    border: 1px solid var(--medium-gray-color);
-    border-radius: var(--border-radius);
-    font-size: 1em;
+.pdp-header-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.pdp-action-btn {
+    background: none; border: none; padding: 6px 8px; cursor: pointer;
+    color: var(--text-color-inverted, #f0f0f0); /* BAN ĐẦU MÀU SÁNG */
+    border-radius: var(--border-radius); display: flex;
+    align-items: center; justify-content: center;
+    line-height: 1; transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 0.8rem;  
 }
+.pdp-header.scrolled-past-hero .pdp-action-btn { 
+    color: var(--text-color-light); 
+}
+.pdp-action-btn:hover { background-color: rgba(255, 255, 255, 0.15); }
+.pdp-header.scrolled-past-hero .pdp-action-btn:hover { background-color: var(--light-gray-color); }
+.pdp-action-btn svg { width: 16px; height: 16px; fill: currentColor; margin-right: 4px; }
+.pdp-action-btn span { white-space: nowrap; }
+/* Nút yêu thích */
+#pdp-favorite-btn.is-favorite { /* Class này được JS thêm/xóa */
+    /* color: #e74c3c; /* Ví dụ: đổi màu khi active */
+}
+#pdp-favorite-btn.is-favorite .icon-heart-empty { display: none; }
+#pdp-favorite-btn.is-favorite .icon-heart-filled { display: inline-block !important; }
+#pdp-favorite-btn:not(.is-favorite) .icon-heart-empty { display: inline-block; }
+#pdp-favorite-btn:not(.is-favorite) .icon-heart-filled { display: none; }
+.pdp-custom-close-btn span { /* display: none; /* Ẩn text "Đóng" nếu chỉ muốn icon */ }
 
-button {
-    background-color: var(--primary-color);
-    color: var(--white-color);
+
+/* Nội dung cuộn của PDP và Hero Section */
+.pdp-scrollable-content { padding-top: 0; flex-grow: 1; overflow-y: visible; -webkit-overflow-scrolling: touch; }
+.pdp-hero-section { 
+    padding-top: 0; /* QUAN TRỌNG: JS sẽ ghi đè cái này */
+    flex-grow: 1;  
+    -webkit-overflow-scrolling: touch; 
+    margin-top: 0;
+    position: relative;
+    width: 100%; 
+    aspect-ratio: 2.2 / 1; /* << ĐÃ CÓ KHAI BÁO TỶ LỆ NÀY */
+    background-color: var(--dark-gray-color); 
+    overflow: hidden;
+     z-index: 1
+}
+.pdp-hero-image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.pdp-hero-image-item { /* Mỗi ảnh sẽ là một div này */
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Hiệu ứng crossfade */
+}
+.pdp-hero-image-item.active {
+    opacity: 1;
+    z-index: 1; /* Đảm bảo ảnh active nằm trên */
+}
+.pdp-hero-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.pdp-hero-image-item.ken-burns img {
+    animation-name: kenburns-pdp;
+    animation-duration: var(--ken-burns-duration, 10s);
+    animation-timing-function: linear;
+    animation-iteration-count: 1; /* Chạy 1 lần cho mỗi ảnh */
+    transform-origin: center center; /* Hoặc random bằng JS */
+    animation-fill-mode: forwards;
+}
+@keyframes kenburns-pdp {
+    0% {
+        transform: scale(1.05) translateX(-2%); /* Bắt đầu từ bên trái một chút và hơi zoom */
+        transform-origin: center center;
+    }
+    100% {
+        transform: scale(1.1) translateX(2%); /* Kết thúc ở bên phải một chút và zoom thêm */
+        transform-origin: center center;
+    }
+}
+/* Controls cho Hero Slider */
+.pdp-hero-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Căn giữa dots */
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+    z-index: 2; /* Nổi trên ảnh */
+}
+.pdp-hero-dots {
+    display: flex;
+    gap: 8px;
+}
+.pdp-hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+.pdp-hero-dot.active {
+    background-color: var(--text-color-inverted, #fff);
+}
+.pdp-hero-playpause {
+    position: absolute;
+    right: 15px; 
+    bottom: 5px; /* Điều chỉnh cho thẳng hàng với dots */
+    background-color: rgba(0,0,0,0.3);
+    color: var(--text-color-inverted);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+.pdp-hero-playpause svg { width: 20px; height: 20px; fill: currentColor; }
+.pdp-hero-playpause span { display: none; /* Ẩn text, chỉ hiện icon */ }
+/* ----- STYLE CHO POPUP CHI TIẾT ẢNH ----- */
+/* Class .full-width đã được thêm vào :host của ModalPopup.js để modal full màn hình */
+/* modal-popup.image-detail-modal-instance .popup-content-wrapper { ... } */
 
-button:hover {
-    background-color: #45a054; /* Darken primary color */
+/* Header của Popup Chi Tiết Ảnh */
+.image-detail-popup-header { /* Đây là div được slot vào header của image-detail-popup */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 10px; /* Padding nhỏ hơn */
+    box-sizing: border-box;
+    background-color: var(--secondary-color-alpha, rgba(0,66,56,0.85)); /* Nền tối mờ */
+    color: var(--text-color-inverted); /* Chữ/icon màu sáng */
+}
+.image-detail-popup-header .pdp-header-actions { /* Tái sử dụng class nếu cần */
+    gap: 10px;
+}
+.image-detail-popup-header .pdp-action-btn { /* Tái sử dụng class */
+    color: var(--text-color-inverted);
+    font-size: 0.8rem;
+    padding: 6px 8px;
+}
+.image-detail-popup-header .pdp-action-btn:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+.image-detail-popup-header .image-detail-back-btn {
+    /* font-weight: 500; */
+}
+.image-detail-popup-header .image-detail-back-btn svg {
+    margin-right: 3px;
+}
+.image-detail-popup-header .image-detail-back-btn span {
+    max-width: 150px; /* Giới hạn chiều rộng text tên sản phẩm */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* Body của Popup Chi Tiết Ảnh */
+#image-detail-popup-body {
+    display: flex;
+    flex-direction: column; /* Sẽ có 2 hàng: hàng ảnh và hàng thumbnails trên mobile */
+    height: calc(100% - 45px); /* Trừ đi chiều cao header ước tính */
+    background-color: #222; /* Nền tối cho xem ảnh */
+    color: var(--text-color-inverted);
+    padding: 0;
+}
+.image-detail-layout { /* Container cho 2 cột chính */
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Quan trọng */
+}
+.image-detail-left-col {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden; /* Để ảnh lớn không tràn */
+    position: relative; /* Cho nút nav ảnh */
+}
+.large-image-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* QUAN TRỌNG: Đổi thành hidden để JS kiểm soát Pan tốt hơn, 
+                         hoặc auto nếu muốn scrollbar mặc định khi zoom */
+                     /* Tạm thời để hidden để tập trung vào zoom theo con trỏ */
+    background-color: #111;
+    border-radius: var(--border-radius);
+    position: relative; /* Cho phép định vị các phần tử con nếu cần */
+    cursor: grab; /* Thay đổi con trỏ khi có thể pan */
+}
+#image-detail-large-img {
+    display: block;
+    max-width: 100%; /* Vẫn giữ để không tràn ban đầu */
+    max-height: 100%;
+    object-fit: contain; 
+    transform-origin: center center; /* Mặc định zoom vào giữa */
+    transition: transform 0.2s ease-out; /* Tạo hiệu ứng zoom mượt */
+    cursor: zoom-in; /* Con trỏ mặc định */
+}
+#image-detail-large-img.is-zoomed {
+    cursor: grab;}
+/* Nút điều hướng ảnh lớn */
+.image-detail-nav-arrows {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none; /* Để click xuyên qua, chỉ nhận click từ button */
+}
+.image-detail-nav-arrows button {
+    pointer-events: all;
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.image-detail-nav-arrows button:hover { background-color: rgba(0,0,0,0.7); }
+
+
+.image-info-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px;
+    font-size: 0.85rem;
+    background-color: rgba(0,0,0,0.3);
+    margin-top: 5px;
+    border-radius: var(--border-radius);
+}
+#image-detail-caption { flex-grow: 1; text-align: left; }
+#image-detail-counter { flex-shrink: 0; }
+
+.image-detail-right-col {
+    width: 130px; /* Độ rộng cột thumbnails */
+    flex-shrink: 0;
+    background-color: #333;
+    padding: 10px 5px 10px 10px;
+    overflow-y: auto; /* Cuộn dọc thumbnails */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.image-detail-thumbnail-item {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3; /* Giữ tỷ lệ cho thumbnail */
+    object-fit: cover;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+.image-detail-thumbnail-item.active,
+.image-detail-thumbnail-item:hover {
+    border-color: var(--primary-color);
+}
+/* Responsive cho Popup Chi Tiết Ảnh */
+@media (max-width: 768px) { /* Mobile */
+    .image-detail-layout {
+        flex-direction: column-reverse; /* Thumbnails ở dưới ảnh lớn */
+    }
+    .image-detail-right-col { /* Thumbnails sẽ nằm ngang */
+        width: 100%;
+        height: auto; /* Hoặc một chiều cao cố định nhỏ */
+        min-height: 80px;
+        flex-direction: row; /* Thumbnails xếp ngang */
+        overflow-y: hidden;
+        overflow-x: auto; /* Cuộn ngang thumbnails */
+        padding: 8px;
+    }
+    .image-detail-thumbnail-item {
+        width: 70px; /* Kích thước thumbnail trên mobile */
+        height: 50px; /* Giữ tỷ lệ hoặc set cố định */
+        flex-shrink: 0; /* Không cho co lại */
+    }
+    #image-detail-popup-body {
+        height: calc(100% - 40px); /* Điều chỉnh nếu header mobile nhỏ hơn */
+    }
+    .pdp-amenities-grid {
+        /* Mobile: Tối thiểu 2 card trên hàng. */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    .amenity-card { padding: 12px; }
+    .amenity-icon { width: 28px; height: 28px; margin-bottom: 8px;}
+    .amenity-card .amenity-title { font-size: 0.85rem; }
+    .amenity-card .amenity-description p { font-size: 0.7rem; }
 }
 
-button.secondary {
-    background-color: var(--secondary-color);
-}
-button.secondary:hover {
-    background-color: #002f28; /* Darken secondary color */
-}
 
-.highlight-price {
-    color: var(--primary-color);
+
+
+.pdp-image-slider-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+#pdp-main-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Mobile First cho PDP columns (Cột liên hệ desktop sẽ ẩn trên mobile) */
+.pdp-main-content-area { padding: 20px 15px; } 
+.pdp-main-columns { display: block; } 
+.pdp-left-column { width: 100%; margin-bottom: 20px; }
+.pdp-right-column { display: none; width: 100%;} /* Ẩn mặc định (mobile) */
+
+/* Các style chi tiết khác cho PDP (breadcrumbs, price-specs, description, etc.) */
+.pdp-section { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--light-gray-color); }
+.pdp-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.pdp-section h4 { font-size: 1.1rem; margin-bottom: 12px; color: var(--secondary-color); }
+.pdp-breadcrumbs { font-size: 0.85em; margin-bottom: 15px; }
+.pdp-breadcrumbs ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; }
+.pdp-breadcrumbs li { display: flex; align-items: center; }
+.pdp-breadcrumbs li a { color: var(--primary-color); } .pdp-breadcrumbs li a:hover { text-decoration: underline; }
+.pdp-breadcrumbs li:not(:last-child)::after { content: '/'; margin: 0 6px; color: var(--medium-gray-color); }
+.pdp-breadcrumbs li[aria-current="page"] { color: var(--text-color); font-weight: 500; }
+.pdp-product-title { font-size: 1.8rem; line-height: 1.3; margin-bottom: 8px; color: var(--secondary-color); }
+.pdp-address { font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 15px; display: flex; align-items: center; }
+.pdp-address svg { margin-right: 6px; }
+/* CẬP NHẬT CHO Box Giá và Thông số cơ bản */
+.pdp-price-specs-box {
+    background-color: var(--light-gray-color);
+    padding: 15px; 
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    display: grid;
+    /* THAY ĐỔI Ở ĐÂY: ví dụ, chia không gian cho 2 nhóm lớn gần bằng nhau */
+    grid-template-columns: 1fr 1.5fr; /* Nhóm Giá : Nhóm 3 Thông số phụ (tỷ lệ 1 : 1.5) */
+    /* Hoặc grid-template-columns: auto 1fr; /* Nhóm Giá tự co theo nội dung, nhóm còn lại chiếm hết */
+    /* Hoặc grid-template-columns: minmax(150px, 1fr) 2fr; /* Giá tối thiểu 150px, tối đa 1 phần, nhóm kia 2 phần */
+    gap: 25px; /* Khoảng cách LỚN giữa nhóm Giá và nhóm Thông số phụ */
+    align-items: flex-start;
+}
+.price-details-group {
+    text-align: left; /* Căn trái cho nhóm giá */
+}
+.price-details-group .spec-item { /* Nếu bạn muốn giữ lại class spec-item cho price */
+    padding: 0; /* Reset padding nếu không cần */
+}
+.spec-item {
+    padding: 10px 5px; 
+    /* Không cần border-right nữa vì đã có gap */
+}
+.spec-item.price-spec {
+    /* Giả sử bạn muốn tổng khoảng cách giữa cột Giá và PN là 25px, 
+       và gap giữa các cột phụ là 10px. 
+       Vậy margin-right cần thêm là 25px - 10px = 15px */
+    margin-right: 0px; /* Tăng khoảng cách bên phải của cột Giá */
+}
+.spec-main-text {
+    display: block; 
+    font-size: 1.857rem; 
     font-weight: bold;
-    font-size: 1.2em;
+    line-height: 1.2; 
+    margin-bottom: 4px; 
+}
+.spec-sub-text {
+    display: block;
+    font-size: 0.857rem; 
+    color: #4B5563; 
+    font-weight: 400; 
+    line-height: 1.3;
+}
+.price-spec .spec-main-text.price-main {
+    color: var(--primary-color); 
+}
+/* Style riêng cho các thông số khác (PN, WC, Diện tích) */
+.spec-item:not(.price-spec) .spec-main-text {
+    color: var(--secondary-color); 
 }
 
-.hidden {
+
+/* Nhóm bên trái: Giá và Đơn giá */
+.spec-item-main.price-details-group {
+    flex-basis: 40%; /* Cho nhóm giá chiếm khoảng 40% hoặc tùy chỉnh */
+    /* Hoặc flex-grow: 1; nếu muốn nó co giãn */
+    text-align: left; /* Căn trái cho nhóm giá */
+}
+.spec-main-text.price-main { /* Giá bán chính */
+    display: block;
+    font-size: 1.857rem; 
+    font-weight: bold;
+    color: var(--primary-color);
+    line-height: 1.2;
+    margin-bottom: 2px; 
+}
+.spec-sub-text.price-sub { /* Đơn giá */
+    display: block;
+    font-size: 0.857rem; 
+    color: #4B5563;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+/* Nhóm bên phải: Chứa 3 thông số PN, WC, Diện tích */
+.specs-group-right {
+    display: flex; /* Các thông số (PN, WC, Diện tích) sẽ nằm ngang hàng */
+    justify-content: space-around; /* Phân bố đều hoặc dùng flex-end để căn phải */
+    align-items: flex-start; /* Căn các item theo đầu dòng trên */
+    flex-grow: 1; /* Cho nhóm này chiếm không gian còn lại */
+    gap: 15px; /* Khoảng cách giữa các spec-item (PN, WC, Diện tích) */
+    /* border-left: 1px solid var(--medium-gray-color); */ /* Tùy chọn: thêm đường kẻ ngăn cách */
+    /* padding-left: 20px; */ /* Tùy chọn: thêm padding trái cho nhóm này */
+}
+.other-specs-group {
+    display: grid; /* Sử dụng Grid để chia 3 cột nhỏ bên trong */
+    grid-template-columns: repeat(3, 1fr); /* Chia đều 3 cột cho PN, WC, Diện tích */
+    gap: 8px; /* KHOẢNG CÁCH NHỎ giữa các thông số phụ */
+    width: 100%; /* Chiếm hết không gian được cấp bởi grid cha */
+}
+.other-specs-group .spec-item {
+    padding: 0; /* Có thể bỏ padding nếu dùng gap */
+    text-align: center; /* Căn giữa nội dung trong từng thông số phụ */
+    min-width: 0; /* Cho phép co giãn tốt hơn */
+}
+.other-specs-group .spec-item .spec-main-text {
+    display: block;
+    font-size: 1.6rem; 
+    font-weight: bold;
+    color: var(--secondary-color); 
+    line-height: 1.2;
+    margin-bottom: 3px;
+    word-break: break-all; /* Cho phép số xuống dòng nếu cột quá hẹp */
+}
+.other-specs-group .spec-item .spec-sub-text {
+    display: block;
+    font-size: 0.8rem; 
+    color: #4B5563;
+    font-weight: 400; 
+    line-height: 1.3;
+    /* word-break: break-word; /* Cho phép text đơn vị xuống dòng */
+}
+
+/* Style cho từng spec-item (PN, WC, Diện tích) bên trong nhóm phải */
+.specs-group-right .spec-item {
+    padding: 0; /* Bỏ padding nếu đã có gap từ .specs-group-right */
+    text-align: center; /* Căn giữa nội dung của từng spec-item */
+    flex: 1; /* Cho các spec-item chia đều không gian trong .specs-group-right */
+    min-width: 60px; /* Đảm bảo có độ rộng tối thiểu */
+}
+/* Text chính cho PN, WC, Diện tích */
+.specs-group-right .spec-item .spec-main-text {
+    display: block;
+    font-size: 1.6rem; /* Có thể nhỏ hơn giá chính một chút */
+    font-weight: bold;
+    color: var(--secondary-color); /* Màu #004238 */
+    line-height: 1.2;
+    margin-bottom: 3px;
+}
+/* Text phụ (đơn vị) cho PN, WC, Diện tích */
+.specs-group-right .spec-item .spec-sub-text {
+    display: block;
+    font-size: 0.8rem; /* Nhỏ hơn chút */
+    color: #4B5563;
+    font-weight: 400; 
+    line-height: 1.3;
+}
+
+
+/* Responsive cho khối thông số */
+@media (max-width: 768px) { /* Mobile */
+    .pdp-price-specs-box {
+        /* Giữ grid 2 nhóm, nhưng có thể điều chỉnh tỉ lệ cột và gap */
+        grid-template-columns: 1fr 1.8fr; /* Ví dụ: Giá chiếm ít hơn chút */
+        gap: 15px;
+        padding: 12px;
+    }
+    .spec-main-text.price-main {
+        font-size: 1.5rem; /* Giảm font size giá chính */
+    }
+    .spec-sub-text.price-sub {
+        font-size: 0.8rem;
+    }
+    .other-specs-group {
+        gap: 5px; /* Giảm gap giữa các thông số phụ */
+    }
+    .other-specs-group .spec-item .spec-main-text {
+        font-size: 1.2rem; /* Giảm font size thông số phụ */
+    }
+    .other-specs-group .spec-item .spec-sub-text {
+        font-size: 0.7rem;
+    }
+    .spec-item.price-spec {
+        /* Gap lớn hơn giữa cột Giá và cột PN trên mobile */
+        /* Ví dụ: muốn tổng gap là 15px, gap phụ là 5px -> margin-right = 10px */
+        margin-right: 10px; 
+    }
+    .spec-item {
+        padding: 5px 2px; 
+    }
+    .spec-main-text {
+        font-size: 1.1rem; 
+        line-height: 1.1;
+        margin-bottom: 2px;
+    }
+    .spec-sub-text {
+        font-size: 0.7rem; 
+        line-height: 1.2;
+    }
+    /* Responsive cho màn hình rất nhỏ (nếu cần chuyển thành 2 cột) */
+    @media (max-width: 320px) {
+       .pdp-price-specs-box {
+        display: block; /* Xếp chồng: Nhóm Giá ở trên, Nhóm Thông số phụ ở dưới */
+    }
+    .price-details-group {
+        text-align: left; 
+        margin-bottom: 15px; 
+    }
+    .spec-main-text.price-main {
+        font-size: 1.6rem; 
+    }
+    .other-specs-group {
+        display: flex; 
+        /* THAY ĐỔI TỪ space-around THÀNH flex-start ĐỂ CĂN TRÁI */
+        justify-content: flex-start; 
+        gap: 15px; /* Bạn có thể giữ lại hoặc điều chỉnh gap này */
+    }
+    .other-specs-group .spec-item .spec-main-text {
+        font-size: 1.2rem; 
+    }
+    .other-specs-group .spec-item .spec-sub-text {
+        font-size: 0.75rem;
+    }
+    }
+    .spec-item-main.price-details-group {
+        flex-basis: auto; /* Reset flex-basis */
+        text-align: center; /* Căn giữa nhóm giá trên mobile */
+        margin-bottom: 10px; /* Khoảng cách với nhóm thông số dưới */
+    }
+    .specs-group-right {
+        justify-content: space-around; /* Giữ lại space-around cho 3 thông số */
+        /* border-left: none; */
+        /* padding-left: 0; */
+        gap: 10px;
+    }
+    .specs-group-right .spec-item .spec-main-text {
+        font-size: 1.4rem; 
+    }
+    .specs-group-right .spec-item .spec-sub-text {
+        font-size: 0.75rem;
+    }
+}
+@media (max-width: 400px) { /* Màn hình rất nhỏ, có thể cho 3 thông số xếp dọc */
+    .specs-group-right {
+        /* flex-direction: column; */ /* Bỏ nếu vẫn muốn giữ ngang */
+        /* align-items: center; */
+        /* gap: 10px; */
+    }
+     /* Nếu muốn 3 thông số vẫn ngang nhưng nhỏ hơn */
+    .specs-group-right .spec-item .spec-main-text {
+        font-size: 1.2rem; 
+    }
+    .specs-group-right .spec-item .spec-sub-text {
+        font-size: 0.7rem;
+    }
+}
+.pdp-price { font-size: 1.8rem; font-weight: bold; color: var(--primary-color); margin-bottom: 10px; }
+.pdp-specs-inline { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.95rem; }
+.pdp-specs-inline span { display: flex; align-items: center; color: var(--text-color); }
+.pdp-specs-inline svg { margin-right: 6px; fill: var(--dark-gray-color); }
+#pdp-product-description-content { font-size: 0.95rem; line-height: 1.7; } #pdp-product-description-content p { margin-bottom: 0.8em; }
+.pdp-detailed-info-table table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.pdp-detailed-info-table td { padding: 8px 5px; border-bottom: 1px solid var(--light-gray-color); }
+.pdp-detailed-info-table tr:last-child td { border-bottom: none; }
+.pdp-detailed-info-table td:first-child { font-weight: 500; color: var(--text-color-light); width: 150px; }
+.pdp-detailed-info-table h4 { /* Giữ nguyên */ }
+#pdp-details-table-val tbody tr td {
+    padding: 8px 5px 8px 0; /* Thêm padding-right cho td thứ nhất */
+    border-bottom: 1px dotted var(--light-gray-color); 
+    width: 50%; 
+    vertical-align: top; 
+}
+#pdp-details-table-val tbody tr td:last-child { /* td thứ hai trong hàng */
+    padding-left: 0px;
+    padding-right: 0;
+}
+#pdp-details-table-val tbody tr:last-child td {
+    border-bottom: none;
+}
+#pdp-details-table-val td strong { /* Giá trị được in đậm */
+    font-weight: 600; /* Hoặc bold */
+    color: var(--text-color); /* Màu cho giá trị */
+}
+/* Nút "Xem thêm" cho bảng chi tiết */
+.pdp-details-view-more-btn {
+    display: none; /* Mặc định ẩn, JS sẽ hiện nếu cần TRÊN MOBILE */
+    margin: 15px auto 5px auto; 
+    padding: 7px 15px;
+    font-size: 0.85em;
+    color: var(--primary-color);
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.pdp-details-view-more-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color-inverted);
+}
+.pdp-row-is-hidden-on-mobile { /* Class này sẽ được JS thêm/xóa cho các <tr> */
     display: none !important;
 }
 
-/* Utility for flex common patterns */
-.flex-container {
-    display: flex;
-    gap: 15px;
-}
-.flex-justify-between {
-    justify-content: space-between;
-}
-.flex-align-center {
-    align-items: center;
+.pdp-detail-row.is-hidden-mobile { /* Đổi tên class cho rõ ràng hơn */
+    display: none !important;
 }
 
-/* General styles for inputs and search bar */
-.search-bar-container {
+
+/* Responsive cho bảng thông tin chi tiết */
+@media (max-width: 768px) { /* Mobile */
+    table#pdp-details-table-val tbody tr {
+     display: block; /* Chuyển sang flex để các td con xuống dòng */
+        flex-direction: column;
+        border-bottom: 1px dotted var(--light-gray-color); /* Border cho cả hàng */
+        padding-bottom: 0px; /* Padding dưới cho cả hàng */
+        margin-bottom: 0px; /* Margin dưới cho cả hàng */
+    }
+    table#pdp-details-table-val tbody tr:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    table#pdp-details-table-val tbody tr td {
+        display: block; /* Mỗi TD (chứa 1 cặp "Label: Value") sẽ chiếm 1 dòng */
+        width: 100%; 
+        padding: 8px 0; /* Padding cho mỗi dòng thông tin */
+        border-bottom: 1px dotted var(--light-gray-color); /* Mỗi mục có border bottom */
+    }
+
+    /* Ẩn các dòng được đánh dấu ban đầu trên mobile */
+    /* Class này sẽ được JS toggle khi người dùng bấm "Xem thêm" */
+    table#pdp-details-table-val tr.pdp-detail-row-mobile-collapsible.initially-hidden-mobile.hidden-on-mobile {
+        display: none;
+    }
+    table#pdp-details-table-val tbody tr:last-child td:last-child { 
+        border-bottom: none;
+    }
+    /* Khi bảng có class .show-all-details-mobile, các hàng này sẽ hiện ra (do class hidden-on-mobile bị xóa bởi JS) */
+}
+table#pdp-details-table-val {
+    width: 100%;
+    border-collapse: separate; /* Hoặc collapse tùy ý */
+    border-spacing: 0; /* Nếu dùng separate */
+    font-size: 0.9rem;
+}
+.pdp-amenities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; font-size: 0.9rem; }
+.amenity-item { display: flex; align-items: center; }
+.amenity-item svg { margin-right: 8px; width: 20px; height: 20px; fill: var(--primary-color); }
+#pdp-map-placeholder, #pdp-loan-calculator-placeholder, #pdp-price-history-placeholder { min-height:100px; background:#e9e9e9; display:flex; align-items:center; justify-content:center; color: var(--dark-gray-color); border-radius: var(--border-radius); }
+
+.pdp-right-column .pdp-contact-box-sticky { 
+    position: sticky; 
+    padding: 20px; /* Tăng padding cho box */
+    border: 1px solid var(--medium-gray-color); 
+    border-radius: var(--border-radius); 
+    background-color: var(--background-color); 
+    display: flex; /* Để căn giữa các item con theo chiều dọc */
+    flex-direction: column; /* Các item con xếp dọc */
+    align-items: center; /* Căn giữa các item con theo chiều ngang */
+    gap: 15px; /* Khoảng cách giữa các item con */
+}
+
+.pdp-contact-box-title { /* Giờ là H4 */
+    font-size: 1.2rem; /* Kích thước chữ cho tiêu đề box */
+    font-weight: bold; /* Đậm */
+    margin-bottom: 5px; /* Giảm margin bottom vì đã có gap từ parent */
+    color: var(--secondary-color);
+    text-align: center; /* Căn giữa */
+}
+.pdp-agent-info { 
+    display: flex; 
+    flex-direction: column; /* Avatar trên, text dưới */
+    align-items: center; 
+    text-align: center;
+    /* margin-bottom: 15px; /* Sẽ dùng gap của parent */
+}
+.pdp-agent-avatar { 
+    width: 70px; /* Kích thước avatar lớn hơn */
+    height: 70px; 
+    border-radius: 50%; /* Hình tròn */
+    object-fit: cover; 
+    margin-bottom: 8px; /* Khoảng cách giữa avatar và text */
+    border: 2px solid var(--medium-gray-color); 
+}
+.pdp-agent-details strong { 
+    display: block; font-size: 1rem; font-weight: 600; 
+    margin-bottom: 2px; /* Khoảng cách nhỏ */
+}
+.pdp-agent-details span { font-size: 0.85rem; color: var(--text-color-light); }
+.pdp-contact-main-btn { 
+    display: flex; align-items: center; justify-content: center; 
+    width: 100%; 
+    /* margin-bottom: 10px; /* Sẽ dùng gap của parent .pdp-contact-box-sticky */
+    padding-top: 10px; padding-bottom: 10px; 
+    font-size: 0.95rem; 
+    font-weight: 600; /* TĂNG FONT WEIGHT */
+}
+.pdp-contact-zalo-btn { 
+    background-color: var(--background-color, #fff) !important; /* Nền trắng */
+    color: var(--zalo-blue-color) !important; /* Text màu Zalo */
+    border: 1px solid var(--zalo-blue-color) !important; /* Viền màu Zalo */
+    font-weight: 500; /* TĂNG FONT WEIGHT (có thể là 600 nếu muốn đậm hơn) */
+    
+    display: flex; align-items: center; justify-content: center; 
+    width: 100%; 
+    /* margin-bottom: 10px; /* Sẽ dùng gap của parent */
+    padding-top: 10px; padding-bottom: 10px; 
+    font-size: 0.9rem;
+}
+.pdp-contact-zalo-btn svg { 
+    fill: currentColor; /* Để icon Zalo có màu theo text của nút */
+    margin-right: 8px; 
+    width: 16px; height: 16px;
+}
+
+.pdp-contact-zalo-btn:hover {
+    background-color: var(--zalo-blue-color) !important; color: #ffffff !important; 
+    border-color: var(--zalo-blue-color) !important;
+}
+.pdp-contact-zalo-btn svg { fill: currentColor; margin-right: 8px; }
+#pdp-contact-form input, #pdp-contact-form textarea { font-size: 0.9rem; margin-bottom: 8px; }
+
+.pdp-mobile-contact-form-area { display: block; /* Mặc định hiện trên mobile, sẽ bị ẩn bởi media query desktop */ padding: 15px; background-color: var(--light-gray-color); margin-top: 20px; }
+.pdp-mobile-contact-form-area h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--secondary-color); }
+.pdp-agent-info-mobile { display: flex; align-items: center; margin-bottom: 15px; }
+#pdp-contact-form-mobile input, #pdp-contact-form-mobile textarea { margin-bottom: 10px; font-size: 0.95rem; }
+#pdp-contact-form-mobile button[type="submit"] { width: 100%; }
+
+.pdp-mobile-bottom-bar { 
+    display: none; /* Mặc định ẩn, sẽ được hiện bởi media query mobile */
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    background-color: var(--background-color); 
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); 
+    padding: 8px 5px; z-index: 1010; 
+    border-top: 1px solid var(--medium-gray-color); 
+}
+.pdp-mobile-bottom-bar button { flex-grow: 1; margin: 0 3px; font-size: 0.8rem; padding: 8px 5px; display: flex; flex-direction: column; align-items: center; gap: 3px; line-height: 1.2; }
+.pdp-mobile-bottom-bar button svg { margin-right: 0; margin-bottom: 2px; }
+#pdp-zalo-chat-btn-mobile { /* Kế thừa từ .pdp-contact-zalo-btn */ }
+
+
+/* ----- RESPONSIVE CHUNG & MOBILE ----- */
+@media (max-width: 768px) {
+    html { font-size: 15px; }
+    h1 { font-size: 1.9rem; } h2 { font-size: 1.6rem; } h3 { font-size: 1.3rem; }
+
+    .section-2-layout, .section-3-layout, .section-5-layout { flex-direction: column; }
+    .section-2-left, .section-2-right, .section-3-left, .section-3-right, .section-5-left, .section-5-right { width: 100%; }
+    
+    .section-2-left { /* Panel filter trên mobile */
+        position: fixed; top: 0; left: 0; width: 85%; max-width: 320px; height: 100%;
+        background-color: var(--background-color, #fff);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2); z-index: 1001; overflow-y: auto; 
+        transform: translateX(-105%); transition: transform 0.3s ease-in-out; will-change: transform; 
+    }
+    .section-2-left .main-filter-box { padding: 20px; padding-top: 50px; height: 100%; display: flex; flex-direction: column; box-shadow: none; }
+    .section-2-left .main-filter-box > h3 { margin-top: 0; font-size: 1.2rem; }
+    .section-2-left.filter-panel-open { transform: translateX(0); }
+    .section-2-left.filter-panel-open .close-filter-panel-button { display: inline-flex; align-items: center; }
+    
+    .featured-list-thumbnail { max-width: 100px; }
+    .search-results-info { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .search-results-info p { margin-right: 0; }
+    .sort-options { width: 100%; }
+    .sort-options select { flex-grow: 1; min-width: 0; }
+    .mobile-filter-trigger-button { display: inline-flex; align-items: center; justify-content: center; }
+
+    /* Responsive cho PDP */
+    modal-popup.product-detail-modal { --modal-max-width: 100vw; } 
+    modal-popup.product-detail-modal .popup-content-wrapper { width: 100%; height: 100%; max-width: 100vw; max-height: 100vh; }
+    
+   
+    #pdp-title-fixed { font-size: 1.1rem; /* Màu đã được xử lý bởi .scrolled-past-hero */ }
+    .pdp-action-btn { width: auto; height: 30px; padding: 4px 6px; /* Màu đã được xử lý */ } 
+    .pdp-action-btn svg { width: 16px; height: 16px; margin-right: 3px; }
+    
+    
+    .pdp-main-content-area { padding: 15px 10px; }
+    /* .pdp-main-columns, .pdp-left-column, .pdp-right-column đã được xử lý bởi Mobile First */
+    
+    .pdp-product-title { font-size: 1.4rem; }
+    .pdp-price { font-size: 1.4rem; }
+    .pdp-specs-inline { font-size: 0.85rem; }
+}
+
+/* Styles cho layout cột của PDP trên Desktop */
+@media (min-width: 769px) {
+    /* Đảm bảo tất cả các dòng của bảng chi tiết đều hiển thị trên desktop */
+    table#pdp-details-table-val tr.pdp-detail-row-mobile-collapsible {
+        display: table-row !important; /* Ghi đè display:none nếu có */
+    }
+    /* Ẩn nút "Xem thêm" trên desktop */
+    .pdp-details-view-more-btn {
+        display: none !important;
+    }
+    .pdp-main-columns {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 25px;
+    }
+    .pdp-left-column {
+        grid-column: span 7 / span 7;
+        width: auto;
+        margin-bottom: 0;
+    }
+    .pdp-right-column {
+        display: block !important; /* Quan trọng: Hiện lại cột phải trên desktop */
+        grid-column: span 3 / span 3;
+        width: auto;
+    }
+    .pdp-mobile-contact-form-area { 
+        display: none !important; 
+    }
+    .pdp-mobile-bottom-bar { 
+        display: none !important; 
+    }
+    modal-popup.contact-form-modal-instance {
+    /* Ví dụ: đặt max-width nhỏ hơn cho form liên hệ */
+    --modal-max-width: 450px; 
+}
+
+/* Style cho các form-group bên trong modal liên hệ nếu cần */
+#contact-form-modal-body .form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+}
+/* ----- STYLES CHO FORM LIÊN HỆ TRONG MODAL ----- */
+modal-popup.contact-form-specific-modal {
+    --modal-max-width: 480px; /* Điều chỉnh max-width cho form modal */
+}
+#contact-form-modal-body { /* Div bao bọc form trong modal */
+    padding: 15px 20px 20px 20px; /* Padding cho nội dung form */
+}
+#contact-form-modal-body .contact-form-intro {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+#contact-form-modal-body .contact-form-product-display {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+#contact-form-modal-body .contact-form-product-display label {
+    color: var(--text-color-light);
+    display: block;
+    margin-bottom: 2px;
+}
+#contact-form-modal-body .contact-form-product-display strong {
+    font-weight: 600;
+    color: var(--text-color);
+}
+#contact-form-modal-body .form-group {
+    margin-bottom: 15px; /* Margin chuẩn cho các group */
+}
+#contact-form-modal-body .form-group label {
+    display: block;
+    margin-bottom: 5px; /* Khoảng cách giữa label và input */
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+}
+#contact-form-modal-body input[type="text"],
+#contact-form-modal-body input[type="tel"],
+#contact-form-modal-body input[type="email"],
+#contact-form-modal-body textarea {
+    font-size: 0.95rem; /* Điều chỉnh font input */
+    padding: 0.6rem 0.75rem; /* Điều chỉnh padding input */
+}
+#contact-form-modal-body textarea {
+    min-height: 80px; /* Chiều cao tối thiểu cho textarea */
+}
+
+
+/* ----- POPUP CHI TIẾT SẢN PHẨM (PDP) - CẬP NHẬT HEADER ----- */
+/* ... (modal-popup.product-detail-modal và .popup-content-wrapper giữ nguyên) ... */
+
+/* Header của PDP (là div[slot="header"] được slot vào trong .popup-header của ModalPopup.js) */
+/* .popup-header của ModalPopup.js giờ đã có nền trắng và sticky */
+.pdp-header { 
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; padding: 10px 15px; box-sizing: border-box;
+   
+    background-color: rgba(0, 66, 56, 0.85);
+    
+    position: relative;
+    z-index: 2; 
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Chỉ transition shadow và border */
+    border-bottom: 1px solid transparent; /* Border ẩn ban đầu, hiện khi scroll */
+}
+/* Khi cuộn qua hero section, .pdp-header (slotted) chỉ cần thêm box-shadow và border */
+.pdp-header.scrolled-past-hero { 
+    /* background-color: var(--background-color, #fff) !important; /* Không cần đổi nền nữa vì cha đã trắng */
+    box-shadow: var(--box-shadow); 
+    border-bottom-color: var(--medium-gray-color, #eee); /* Hiện border khi scroll */
+}
+
+/* Tiêu đề và các nút action trong .pdp-header (slotted) */
+
+.pdp-header-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+
+
+.pdp-action-btn:hover { 
+    background-color: var(--light-gray-color); /* Hover trên nền trắng */
+    color: var(--primary-color);
+}
+
+.pdp-action-btn svg { width: 16px; height: 16px; fill: currentColor; margin-right: 4px; }
+.pdp-action-btn span { white-space: nowrap; }
+/* Style cho div hiển thị Ngày đăng mới */
+.pdp-post-date-display {
+    text-align: right; 
+    font-size: 0.8rem; 
+    color: var(--dark-gray-color); 
+    margin-top: 15px; /* Điều chỉnh margin nếu cần, sau khối price-specs */
+    margin-bottom: 20px; /* Khoảng cách với section mô tả */
+    padding-top: 0; 
+}
+#pdp-post-date-value {
+    font-weight: 500; /* Có thể cho giá trị ngày đăng đậm hơn chút */
+}
+
+
+/* ... (Các style khác của main.css giữ nguyên) ... */
+
+/* Responsive cho PDP */
+@media (max-width: 768px) {
+    /* ... (các style responsive khác) ... */
+    .pdp-post-date-display {
+        text-align: left; /* Trên mobile có thể muốn căn trái lại */
+        margin-top: 15px;
+    }
+}
+/* Style cho khu vực Thông tin dự án */
+.pdp-project-info { /* Kế thừa một số style từ .pdp-section (ví dụ: margin-bottom) */
+    /* Thêm style riêng để phân biệt */
+    background-color: var(--light-gray-color); /* Nền màu xám nhạt */
+    padding: 15px; /* Padding cho toàn bộ box */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--medium-gray-color); /* Hoặc bỏ border-bottom của .pdp-section */
+    /* Nếu có border này, có thể không cần border-bottom từ .pdp-section nữa */
+    /* margin-bottom: 25px; /* Đã có từ .pdp-section */ }
+.pdp-project-info h4 { /* Đã có style từ .pdp-section h4 */ }
+
+.project-details-layout {
     display: flex;
-    gap: 10px;
+    align-items: flex-start; /* Căn các item theo mép trên */
+    gap: 15px; /* Khoảng cách giữa thumbnail và text */
+    width: 100%; /* Chiếm trọn chiều rộng của cột trái */
+}
+
+.project-thumbnail {
+    width: 100px; /* Kích thước thumbnail, bạn có thể điều chỉnh */
+    height: 75px;  /* Kích thước thumbnail, bạn có thể điều chỉnh để có tỷ lệ phù hợp */
+    object-fit: cover; /* Đảm bảo ảnh vừa vặn mà không bị méo */
+    border-radius: var(--border-radius);
+    flex-shrink: 0; /* Thumbnail không bị co lại */
+    background-color: var(--light-gray-color); /* Màu nền nếu ảnh không tải được */
+}
+
+.project-text-content {
+    flex-grow: 1; /* Phần text chiếm không gian còn lại */
+}
+
+.project-name { /* Đây là thẻ H5 */
+    font-size: 1rem; /* Kích thước chữ cho tên dự án */
+    font-weight: 600;
+    color: var(--text-color); /* Hoặc var(--secondary-color) nếu muốn đậm hơn */
+    margin-top: 0; /* Reset margin của H5 */
+    margin-bottom: 5px; /* Khoảng cách với mô tả */
+}
+
+.project-description {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    line-height: 1.5;
+    margin-bottom: 0; /* Reset margin của P */
+}
+@media (max-width: 576px) { /* Breakpoint nhỏ hơn cho mobile, tùy chỉnh nếu cần */
+    .project-details-layout {
+        flex-direction: column; /* Xếp chồng thumbnail và text trên mobile */
+        align-items: center; /* Căn giữa thumbnail và text */
+        text-align: center; /* Căn giữa text */
+    }
+    .project-thumbnail {
+        width: 150px; /* Có thể cho thumbnail lớn hơn một chút khi xếp dọc */
+        height: 100px;
+        margin-bottom: 10px; /* Khoảng cách khi xếp dọc */
+    }
+    .project-name {
+        font-size: 1.1rem; /* Tăng nhẹ tên dự án trên mobile */
+    }
+}
+
+/* Vị trí bản đồ */
+.pdp-map { /* Kế thừa từ .pdp-section */ }
+.pdp-map-embed-container {
+    width: 100%;
+    height: 300px; /* Hoặc chiều cao bạn muốn, ví dụ 350px, 400px */
+    background-color: var(--light-gray-color); /* Màu nền nếu iframe không tải được */
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Đảm bảo iframe không tràn ra ngoài */
+}
+.pdp-map-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none; /* Iframe đã có style="border:0" nhưng để chắc chắn */
+}
+
+
+/* Responsive cho bản đồ (nếu cần điều chỉnh chiều cao trên mobile) */
+@media (max-width: 768px) {
+    .pdp-map-embed-container {
+        height: 250px; /* Ví dụ: giảm chiều cao trên mobile */
+    }
+}
+
+
+/* ----- STYLES CHO CÔNG CỤ TÍNH LÃI VAY TRONG PDP ----- */
+#pdp-loan-calculator-content {
+    margin-top: 10px; /* Khoảng cách với tiêu đề section "Công cụ tính lãi vay" */
+}
+
+.loan-calculator-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Layout responsive cho các input */
+    gap: 15px 20px;
     margin-bottom: 20px;
 }
 
-.main-search-input {
-    flex-grow: 1;
-}
-
-.search-results-info {
+.loan-input-group { /* Giống .form-group nhưng có thể tùy chỉnh riêng */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: var(--light-gray-color);
+    flex-direction: column;
+}
+.loan-input-group label {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.loan-input-group input[type="number"],
+.loan-input-group input[type="date"],
+.loan-input-group select {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border: 1px solid var(--medium-gray-color);
     border-radius: var(--border-radius);
 }
 
-.search-results-info p {
+/* Input với nút +/- */
+.input-with-controls {
+    display: flex;
+    align-items: center;
+}
+.input-with-controls input[type="number"] {
+    text-align: center;
+    border-left: none;
+    border-right: none;
+    border-radius: 0; /* Bỏ bo góc của input ở giữa */
+    /* flex-grow: 1; /* Để input chiếm không gian còn lại */
+    /* width: auto; /* Reset width 100% mặc định của input */
+    min-width: 60px; /* Đảm bảo có không gian nhập */
+}
+/* Chrome, Safari, Edge, Opera - ẩn mũi tên mặc định của input number */
+.input-with-controls input[type=number]::-webkit-outer-spin-button,
+.input-with-controls input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox - ẩn mũi tên mặc định */
+.input-with-controls input[type=number] {
+  -moz-appearance: textfield;
+}
+.lc-control-btn {
+    padding: 8px 10px; /* Kích thước nút +/- */
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1; /* Để text trong nút căn giữa tốt hơn */
+    background-color: var(--light-gray-color);
+    border: 1px solid var(--medium-gray-color);
+    min-width: 38px; /* Chiều rộng nút */
+}
+.lc-control-btn.minus {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    border-right: none;
+}
+.lc-control-btn.plus {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-left: none;
+}
+.lc-control-btn:hover {
+    background-color: var(--medium-gray-color);
+}
+
+/* Thanh trượt % vay */
+.loan-slider {
+    width: 100%;
+    margin-top: 5px;
+    accent-color: var(--primary-color);
+}
+.slider-percentage-text {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    text-align: right;
+    margin-top: 2px;
+}
+
+.loan-calculator-action {
+    text-align: center; /* Căn giữa nút Tính toán */
+    margin-bottom: 25px;
+}
+.loan-calculate-btn {
+    padding: 10px 25px; /* Nút tính toán to hơn chút */
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.loan-calculator-results {
+    display: none;
+    /* Desktop: 2 cột, cột số liệu có thể rộng hơn chút */
+    grid-template-columns: 1.2fr 0.8fr; 
+    gap: 25px; /* Tăng gap giữa số liệu và biểu đồ */
+    padding: 20px; /* Tăng padding cho khu vực kết quả */
+    border: 1px solid var(--primary-color); /* Đổi thành border liền, màu primary */
+    border-radius: var(--border-radius);
+    background-color: var(--light-gray-color); /* Nền nhẹ hơn chút */
+    margin-top: 20px; /* Khoảng cách với nút tính toán */
+}
+.loan-calculator-results.results-visible {display: grid; }
+.numeric-results h4 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 15px; /* Tăng margin */
+    display: flex;
+    align-items: center;
+}
+.numeric-results h4 svg { /* Style cho icon ngân hàng */
+    margin-right: 8px;
+    fill: var(--primary-color); /* Cho icon màu primary */
+}
+.numeric-results p {
+    font-size: 0.95rem;
+    margin-bottom: 12px; /* Tăng margin */
+    color: var(--text-color); /* Cho chữ rõ hơn */
+    line-height: 1.4; /* Cho dễ đọc khi có xuống dòng (Min-Max) */
+}
+.numeric-results p strong {
+    color: var(--secondary-color);
+    font-weight: 700; /* Đậm hơn */
+    font-size: 1.1em; /* To hơn chút */
+}
+.btn-view-loan-schedule { /* Style cho nút "Xem chi tiết lịch trả nợ" */
+    font-size: 0.9rem;
+    margin-top: 15px;
+    padding: 6px 0; 
+    color: var(--primary-color);
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.btn-view-loan-schedule:hover {
+    color: var(--secondary-color);
+    background: none;
+}
+.chart-results {
+    display: flex; 
+    flex-direction: column; /* Cho phép tiêu đề (nếu có) và canvas xếp chồng */
+    justify-content: center;
+    align-items: center;
+    min-height: 220px; 
+    position: relative; 
+}
+/* Canvas sẽ tự responsive nếu option của Chart.js là responsive: true */
+#loanPieChart {
+    max-width: 100%; /* Để responsive */
+    max-height: 220px; /* Giới hạn chiều cao tối đa của biểu đồ */
+    display: block;
+    margin: auto;
+}
+.chart-results .pie-chart-placeholder {
+    /* Style đã có inline, có thể chuyển vào đây nếu muốn */
+}
+
+/* Style cho header của modal lịch trả nợ */
+.loan-schedule-modal-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.loan-schedule-modal-header .back-to-pdp-btn:hover {
+    background-color: var(--light-gray-color);
+}
+.loan-schedule-modal-header .back-to-pdp-btn svg { margin-right: 3px; }
+#loan-schedule-title { /* Là H3 */
+     margin: 0;
+    font-size: 1.1rem;
+    color: var(--secondary-color); /* Hiện đang là màu xanh đậm/đen */
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Responsive cho công cụ tính lãi vay */
+@media (max-width: 768px) {
+    .loan-calculator-inputs {
+        grid-template-columns: 1fr; /* Mỗi input một hàng trên mobile */
+    }
+    .loan-calculator-results.results-visible {
+        grid-template-columns: 1fr; /* Kết quả số và biểu đồ xếp chồng */
+    }
+    .numeric-results {
+        text-align: center; /* Căn giữa kết quả số trên mobile */
+    }
+    .numeric-results h4 {
+        justify-content: center; /* Căn giữa icon + text h4 */
+    }
+    .chart-results {
+        margin-top: 20px; /* Khoảng cách khi xếp chồng */
+    }
+
+}
+/* ----- STYLE CHO MODAL LỊCH BIỂU TRẢ NỢ ----- */
+/* Class .full-width đã được thêm vào :host của ModalPopup.js để nó full màn hình */
+/* Nếu bạn đặt class .loan-schedule-modal-instance cho modal#loan-schedule-modal trong HTML */
+modal-popup.loan-schedule-modal-instance .popup-content-wrapper {
+    /* Đã được xử lý bởi class .full-width trên host của modal-popup nếu bạn thêm
+       :host(.full-width) .popup-content-wrapper { max-width: 100vw; width: 100vw; ... }
+       vào ModalPopup.js. Nếu không, bạn có thể style trực tiếp ở đây: */
+    max-width: 100%; /* Full width */
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
     margin: 0;
 }
 
-.sort-options select {
-    margin-left: 5px;
+/* Header của modal lịch trả nợ */
+.loan-schedule-modal-header { /* Đây là div slot="header" trong index.html */
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    /* Nền của header này sẽ là nền mặc định của .popup-header trong ModalPopup.js (màu đen mờ) */
+}
+.loan-schedule-modal-header .back-to-pdp-btn {
+    background: none;
+    border: none;
+    color: var(--dark-gray-color);    
+    padding: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+.loan-schedule-modal-header .back-to-pdp-btn:hover {
+    opacity: 0.8;
+}
+.loan-schedule-modal-header .back-to-pdp-btn svg {
+    margin-right: 5px;
+    fill: currentColor;
 }
 
-/* Basic responsive */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.8em;
-    }
-    h3 {
-        font-size: 1.3em;
-    }
-    .search-results-info {
-        flex-direction: column;
-        align-items: flex-start;
+
+/* Body của modal lịch trả nợ (chứa bảng) */
+#loan-schedule-modal-body {
+    padding: 15px;
+    overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
+}
+.loan-schedule-table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Đảm bảo cuộn ngang cho chính table wrapper */
+}
+.loan-schedule-table {
+    width: 100%;
+    min-width: 800px; /* Đặt min-width để các cột không bị quá hẹp, tạo thanh cuộn ngang */
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    text-align: right; /* Căn phải cho các số liệu */
+}
+.loan-schedule-table th, .loan-schedule-table td {
+    border: 1px solid var(--medium-gray-color);
+    padding: 8px 10px;
+    white-space: nowrap; /* Ngăn text xuống dòng trong ô */
+}
+.loan-schedule-table th {
+    background-color: var(--light-gray-color);
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-align: center; /* Tiêu đề cột căn giữa */
+}
+.loan-schedule-table td:nth-child(1), /* Kỳ trả */
+.loan-schedule-table td:nth-child(2) { /* Ngày TT */
+    text-align: center;
+}
+.loan-schedule-table tfoot td {
+    background-color: #f0f0f0;
+}
+/* Responsive cho Tiện ích lân cận */
+@media (max-width: 768px) { /* Mobile */
+    .pdp-amenities-grid {
+        /* * Mobile: Tối thiểu 2 card trên hàng.
+         * minmax(140px, 1fr): mỗi card rộng tối thiểu 140px.
+         * Nếu màn hình hẹp hơn 280px + gap, nó sẽ tự xuống 1 card/hàng.
+         */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 10px;
     }
+    .amenity-card {
+        padding: 12px;
+    }
+    .amenity-icon-placeholder {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    .amenity-title {
+        font-size: 0.9rem;
+    }
+    .amenity-description {
+        font-size: 0.75rem;
+    }
+}
+
+.pdp-price-history { /* Kế thừa từ .pdp-section */ }
+#pdp-price-history-chart-title { /* Là H4 */
+    font-size: 1.1rem; /* Giữ nguyên hoặc điều chỉnh */
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    text-align: center; /* Căn giữa tiêu đề biểu đồ */
+}
+.price-history-summary-cards {
+    display: grid; /* Hoặc flex */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive cards */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.summary-card { /* Đổi tên từ placeholder */
+    background-color: var(--background-color);
+    padding: 15px;
+    border: 1px solid var(--medium-gray-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.summary-card .card-title {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.summary-card .card-value {
+    font-size: 1.3rem; /* Làm nổi bật giá trị chính */
+    font-weight: bold;
+    color: var(--secondary-color); /* Hoặc var(--primary-color) */
+    margin-bottom: 5px;
+    display: block;
+}
+.summary-card .card-comparison {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    line-height: 1.3;
+}
+.summary-card .card-comparison strong { /* Đơn giá sản phẩm của bạn */
+    color: var(--text-color);
+    font-weight: 600;
+}
+.summary-card .card-comparison .price-lower {
+    color: #28a745; /* Màu xanh lá cho thấp hơn */
+    font-weight: 500;
+}
+.summary-card .card-comparison .price-higher {
+    color: #dc3545; /* Màu đỏ cho cao hơn */
+    font-weight: 500;
+}
+.summary-card .card-comparison-detail { /* Dòng mô tả thêm cho card biến động giá */
+    font-size: 0.7rem;
+    color: #6c757d; /* Màu xám đậm hơn chút */
+}
+.summary-card-placeholder { /* Style cho các card tóm tắt (sẽ làm chi tiết sau) */
+    background-color: var(--background-color);
+    padding: 10px 15px;
+    border: 1px solid var(--medium-gray-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    min-width: 120px; /* Độ rộng tối thiểu cho mỗi card */
+    box-shadow: var(--box-shadow);
+}
+/* GHI CHÚ BÊN DƯỚI BIỂU ĐỒ */
+.price-history-data-note {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    text-align: left; /* Hoặc center */
+    margin-top: 15px;
+    padding: 10px;
+    background-color: var(--light-gray-color);
+    border-radius: var(--border-radius);
+    line-height: 1.5;
+}
+.pdp-chart-container {
+    width: 100%;
+    /* max-width bằng cột trái sẽ do .pdp-left-column quyết định */
+    height: 280px; /* Chiều cao cố định cho biểu đồ, bạn có thể điều chỉnh */
+    position: relative; /* Để Chart.js có thể tính toán kích thước responsive */
+    margin: 0 auto; /* Căn giữa nếu nó nhỏ hơn max-width của cột trái */
+}
+#pdp-price-history-chart-container { /* Thẻ canvas */
+    /* Chart.js sẽ tự quản lý kích thước của canvas bên trong container */
+}
+.no-data-message {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 20px;
+}
+/* Responsive cho Lịch sử giá */
+@media (max-width: 768px) {
+    .price-history-summary-cards {
+         grid-template-columns: 1fr; /* Mỗi card một hàng trên mobile */
+    }
+    .summary-card .card-value {
+        font-size: 1.1rem;
+    }
+}
+.price-history-time-tabs {
+    display: flex;
+    justify-content: center; /* Hoặc flex-start, flex-end tùy ý */
+    gap: 10px;
+    margin-bottom: 15px; /* Khoảng cách với summary cards hoặc biểu đồ */
+}
+.time-range-tab {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    background-color: var(--background-color);
+    border: 1px solid var(--medium-gray-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.time-range-tab:hover {
+    background-color: var(--light-gray-color);
+    border-color: var(--primary-color);
+}
+.time-range-tab.active {
+    background-color: var(--primary-color);
+    color: var(--text-color-inverted);
+    border-color: var(--primary-color);
+    font-weight: 500;
 }
