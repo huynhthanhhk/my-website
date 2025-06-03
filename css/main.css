@@ -1070,16 +1070,68 @@ table#pdp-details-table-val {
 #pdp-contact-form-mobile button[type="submit"] { width: 100%; }
 
 .pdp-mobile-bottom-bar { 
-    display: none; /* Mặc định ẩn, sẽ được hiện bởi media query mobile */
+    display: none; 
     position: fixed; bottom: 0; left: 0; right: 0; 
     background-color: var(--background-color); 
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1); 
-    padding: 8px 5px; z-index: 1010; 
+    padding: 8px; /* Tăng padding cho thanh */
+    z-index: 10; 
     border-top: 1px solid var(--medium-gray-color); 
+    gap: 8px; /* Khoảng cách giữa các nút */
 }
-.pdp-mobile-bottom-bar button { flex-grow: 1; margin: 0 3px; font-size: 0.8rem; padding: 8px 5px; display: flex; flex-direction: column; align-items: center; gap: 3px; line-height: 1.2; }
-.pdp-mobile-bottom-bar button svg { margin-right: 0; margin-bottom: 2px; }
-#pdp-zalo-chat-btn-mobile { /* Kế thừa từ .pdp-contact-zalo-btn */ }
+.pdp-mobile-bottom-bar button { 
+     /* flex-grow: 1; /* Bỏ flex-grow để nút Gọi có thể rộng hơn */
+    flex-basis: 0; /* Cho phép các nút co giãn dựa trên flex-grow nếu có */
+    min-width: 60px; /* Đảm bảo nút Zalo có độ rộng tối thiểu cho icon */
+    margin: 0; /* Bỏ margin mặc định nếu đã có gap */
+    font-size: 0.8rem; 
+    padding: 8px 5px; 
+    display: flex; 
+    /* flex-direction: column; /* Để icon trên text dưới nếu có cả 2 */
+    align-items: center; 
+    justify-content: center; /* Căn giữa nội dung nút */
+    gap: 5px; 
+    line-height: 1.2; 
+    border-radius: var(--border-radius);
+    border: 1px solid transparent; /* Mặc định không có viền rõ ràng trừ nút Zalo */
+}
+.pdp-mobile-bottom-bar button svg { 
+    margin-right: 0; /* Sẽ set lại nếu có text */
+    /* margin-bottom: 2px; /* Nếu flex-direction là column */
+    width: 18px; 
+    height: 18px;
+    fill: currentColor;
+}
+.pdp-mobile-bottom-bar button.btn-call-main {
+    flex-grow: 2; /* Ưu tiên chiều rộng cho nút Gọi (gấp đôi nút Zalo nếu Zalo là 1) */
+    background-color: var(--secondary-color); /* Màu secondary */
+    color: var(--text-color-inverted);
+    border-color: var(--secondary-color);
+    font-weight: 500; /* Có thể tăng font-weight */
+}
+.pdp-mobile-bottom-bar button.btn-call-main:hover {
+    background-color: hsl(var(--secondary-hsl) / 0.9); /* Làm màu tối hơn chút khi hover */
+    border-color: hsl(var(--secondary-hsl) / 0.9);
+}
+.pdp-mobile-bottom-bar button.btn-call-main svg {
+    margin-right: 6px; /* Khoảng cách giữa icon và số điện thoại */
+}
+.pdp-mobile-bottom-bar button.btn-call-main span {
+    font-size: 0.9rem; /* Font to hơn cho số điện thoại */
+}
+/* Nút Zalo */
+.pdp-mobile-bottom-bar button#pdp-zalo-chat-btn-mobile.pdp-contact-zalo-btn {
+    flex-grow: 1; /* Chiếm phần còn lại */
+    background-color: var(--background-color, #fff) !important; 
+    color: var(--zalo-blue-color) !important; 
+    border: 1px solid var(--zalo-blue-color) !important; 
+    font-weight: 500; 
+    padding: 8px 10px; /* Padding cho nút Zalo */
+}
+.pdp-mobile-bottom-bar button#pdp-zalo-chat-btn-mobile.pdp-contact-zalo-btn:hover {
+    background-color: var(--zalo-blue-color) !important; 
+    color: var(--text-color-inverted, #fff) !important; 
+}
 
 
 /* ----- RESPONSIVE CHUNG & MOBILE ----- */
@@ -1155,7 +1207,7 @@ table#pdp-details-table-val {
         display: none !important; 
     }
     .pdp-mobile-bottom-bar { 
-        display: none !important; 
+        display: flex !important; 
     }
     modal-popup.contact-form-modal-instance {
     /* Ví dụ: đặt max-width nhỏ hơn cho form liên hệ */
@@ -1795,4 +1847,65 @@ modal-popup.loan-schedule-modal-instance .popup-content-wrapper {
     color: var(--text-color-inverted);
     border-color: var(--primary-color);
     font-weight: 500;
+}
+/* ----- RESPONSIVE ----- */
+@media (max-width: 768px) { /* Mobile */
+    /* ... (các style responsive chung khác) ... */
+
+    /* PDP Full width và Full Height trên Mobile */
+    modal-popup.product-detail-modal { 
+        --modal-max-width: 100vw; /* Ghi đè max-width */
+         padding: 0; /* Bỏ padding của host để wrapper chiếm toàn bộ */
+    } 
+    modal-popup.product-detail-modal .popup-content-wrapper { 
+        width: 100vw;   /* Chiếm toàn bộ chiều rộng viewport */
+        height: 100vh;  /* Chiếm toàn bộ chiều cao viewport */
+        max-width: 100vw; /* Ghi đè max-width */
+        max-height: 100vh; /* Ghi đè max-height */
+        border-radius: 0; /* Bỏ bo góc cho full screen */
+        margin: 0;
+    }
+
+    /* Đảm bảo .pdp-scrollable-content chiếm không gian còn lại nếu không có header/footer PDP */
+    modal-popup.product-detail-modal.no-header.no-footer .popup-body {
+        height: 100%; /* Nếu PDP không có header/footer riêng của modal-popup */
+    }
+    modal-popup.product-detail-modal.no-header.no-footer .pdp-scrollable-content {
+        height: 100%;
+        padding-bottom: 60px; /* Khoảng trống cho mobile bottom bar nếu nội dung quá dài */
+    }
+
+
+    .pdp-main-columns { 
+        display: block; 
+    }
+    .pdp-left-column { 
+        width: 100%; 
+        margin-bottom: 0; /* Bỏ margin-bottom nếu thanh mobile bar đã có */
+    }
+    .pdp-right-column { 
+        display: none !important; /* Luôn ẩn cột phải trên mobile */
+    }
+    .pdp-mobile-contact-form-area { 
+        display: block !important; /* Hiện form liên hệ mobile */
+        margin-bottom: 60px; /* Khoảng trống cho mobile bottom bar */
+    }
+    .pdp-mobile-bottom-bar { 
+        display: flex !important; /* Hiện thanh liên hệ trên mobile */
+    }
+
+    /* ... (các style responsive khác cho bảng chi tiết, v.v...) ... */
+}
+
+@media (min-width: 769px) { /* Desktop */
+    /* ... (các style desktop khác) ... */
+    .pdp-mobile-contact-form-area { 
+        display: none !important; 
+    }
+    .pdp-mobile-bottom-bar { 
+        display: none !important; 
+    }
+    .pdp-right-column {
+        display: block !important; 
+    }
 }
